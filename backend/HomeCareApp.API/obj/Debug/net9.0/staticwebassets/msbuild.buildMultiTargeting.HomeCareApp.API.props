@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/HomeCareApp.API.props" />
+</Project>

@@ -1,0 +1,15 @@
+/home/earl/homecare-app/backend/HomeCareApp.Application/bin/Debug/net9.0/HomeCareApp.Application.deps.json
+/home/earl/homecare-app/backend/HomeCareApp.Application/bin/Debug/net9.0/HomeCareApp.Application.dll
+/home/earl/homecare-app/backend/HomeCareApp.Application/bin/Debug/net9.0/HomeCareApp.Application.pdb
+/home/earl/homecare-app/backend/HomeCareApp.Application/bin/Debug/net9.0/HomeCareApp.Domain.dll
+/home/earl/homecare-app/backend/HomeCareApp.Application/bin/Debug/net9.0/HomeCareApp.Domain.pdb
+/home/earl/homecare-app/backend/HomeCareApp.Application/obj/Debug/net9.0/HomeCareApp.Application.csproj.AssemblyReference.cache
+/home/earl/homecare-app/backend/HomeCareApp.Application/obj/Debug/net9.0/HomeCareApp.Application.GeneratedMSBuildEditorConfig.editorconfig
+/home/earl/homecare-app/backend/HomeCareApp.Application/obj/Debug/net9.0/HomeCareApp.Application.AssemblyInfoInputs.cache
+/home/earl/homecare-app/backend/HomeCareApp.Application/obj/Debug/net9.0/HomeCareApp.Application.AssemblyInfo.cs
+/home/earl/homecare-app/backend/HomeCareApp.Application/obj/Debug/net9.0/HomeCareApp.Application.csproj.CoreCompileInputs.cache
+/home/earl/homecare-app/backend/HomeCareApp.Application/obj/Debug/net9.0/HomeCare.6BB9BE4D.Up2Date
+/home/earl/homecare-app/backend/HomeCareApp.Application/obj/Debug/net9.0/HomeCareApp.Application.dll
+/home/earl/homecare-app/backend/HomeCareApp.Application/obj/Debug/net9.0/refint/HomeCareApp.Application.dll
+/home/earl/homecare-app/backend/HomeCareApp.Application/obj/Debug/net9.0/HomeCareApp.Application.pdb
+/home/earl/homecare-app/backend/HomeCareApp.Application/obj/Debug/net9.0/ref/HomeCareApp.Application.dll

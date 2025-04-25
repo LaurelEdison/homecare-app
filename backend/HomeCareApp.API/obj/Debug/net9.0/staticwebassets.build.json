@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "Vza7esh5O3D0aoHbRmpgPsHWq9Loi8rDAXUopjT5mig=",
+  "Source": "HomeCareApp.API",
+  "BasePath": "_content/HomeCareApp.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
