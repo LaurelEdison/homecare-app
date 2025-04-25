@@ -1,0 +1,10 @@
+# Rider project files
+.idea/
+
+# .NET build output folders
+bin/
+obj/
+
+# Rider restore info files
+*.rider.project.restore.info
+
