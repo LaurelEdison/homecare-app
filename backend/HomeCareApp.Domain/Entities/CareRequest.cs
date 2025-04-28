@@ -26,4 +26,9 @@ public class CareRequest // Created by client
     public Roles  ServiceType { get; set; } = Roles.Client;
     public string Notes { get; set; } = string.Empty;
     public string Address { get; set; } = string.Empty;
+    
+    public User Client { get; set; }
+    
+    //Many bookings because many providers can offer to take request
+    public ICollection<Booking> Bookings { get; set; } 
 }

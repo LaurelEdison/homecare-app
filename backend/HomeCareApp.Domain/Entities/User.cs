@@ -21,6 +21,8 @@ public class User
     public string PasswordHash { get; set; } = string.Empty; 
     public string Email { get; set; } = string.Empty;
     public Roles Role { get; set; }
+    public string ProfilePicture { get; set; } = string.Empty;
     
-    
+    public ICollection<CareRequest> CareRequests { get; set; } //Many requests for client
+    public ICollection<Booking> ProviderBookings { get; set; } //Many bookings if they are provider
 }
