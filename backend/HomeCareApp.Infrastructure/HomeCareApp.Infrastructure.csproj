@@ -1,11 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\HomeCareApp.Application\HomeCareApp.Application.csproj" />
-    <ProjectReference Include="..\HomeCareApp.Domain\HomeCareApp.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -21,6 +16,11 @@
     <Folder Include="Data\" />
     <Folder Include="Migrations\" />
     <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HomeCareApp.Application\HomeCareApp.Application.csproj" />
+    <ProjectReference Include="..\HomeCareApp.Domain\HomeCareApp.Domain.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

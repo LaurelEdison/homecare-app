@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HomeCareApp.Application\HomeCareApp.Application.csproj" />
     <ProjectReference Include="..\HomeCareApp.Domain\HomeCareApp.Domain.csproj" />
+    <ProjectReference Include="..\HomeCareApp.Infrastructure\HomeCareApp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
