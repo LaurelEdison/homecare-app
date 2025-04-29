@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace HomeCareApp.Domain.Entities;
 
 public class Review
@@ -28,6 +30,7 @@ public class Review
     public int Rating { get; set; } //1-5
     public string? Comments { get; set; } = string.Empty;
 
+    [ForeignKey(nameof(BookingId))]
     public Booking Booking { get; set; } = null!;
 
 }

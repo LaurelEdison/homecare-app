@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace HomeCareApp.Domain.Entities;
 
 public class Booking
@@ -26,8 +28,12 @@ public class Booking
     public DateTime RequestedDate { get; set; }
     public string Status { get; set; } =  string.Empty;
 
+    [ForeignKey(nameof(RequestId))]
     public CareRequest MCareRequest { get; set; } = null!;
+    
+    [ForeignKey(nameof(ProviderId))]
     public User Provider { get; set; } = null!;
+    
     public ICollection<Review>? Reviews { get; set; }
     
     

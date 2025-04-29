@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using HomeCareApp.Domain.Enums;
 
 namespace HomeCareApp.Domain.Entities;
@@ -28,6 +29,7 @@ public class CareRequest // Created by client
     public string Notes { get; set; } = string.Empty;
     public string Address { get; set; } 
 
+    [ForeignKey(nameof(ClientId))]
     public User Client { get; set; } = null!;
     
     //Many bookings because many providers can offer to take request
