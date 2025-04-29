@@ -4,6 +4,14 @@ namespace HomeCareApp.Domain.Entities;
 
 public class User
 {
+    // Parameterless constructor for ef core
+    public User()
+    {
+        FullName = string.Empty;
+        PasswordHash = string.Empty;
+        Email = string.Empty;
+    }
+
     private User(Guid id, Roles role, string fullName, string email, string password)
     {
         Id = id;
