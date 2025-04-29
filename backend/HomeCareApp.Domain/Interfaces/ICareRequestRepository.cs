@@ -6,7 +6,7 @@ public interface ICareRequestRepository
 {
     Task<CareRequest> GetByIdAsync(Guid id);
     Task<IEnumerable<CareRequest>> GetAllAsync();
-    Task<IEnumerable<CareRequest>> GetAllByUserIdAsync(Guid userId);
+    Task<IEnumerable<CareRequest>> GetAllByClientIdAsync(Guid clientId);
     Task AddAsync(CareRequest request);
     Task UpdateAsync(CareRequest request);
     Task DeleteAsync(Guid id);
