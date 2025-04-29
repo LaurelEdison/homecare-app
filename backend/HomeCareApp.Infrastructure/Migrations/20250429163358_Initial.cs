@@ -58,13 +58,14 @@ namespace HomeCareApp.Infrastructure.Migrations
                     ProviderId = table.Column<Guid>(type: "uuid", nullable: false),
                     RequestedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
+                    MCareRequestId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bookings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bookings_CareRequests_CareRequestId",
-                        column: x => x.RequestId,
+                        name: "FK_Bookings_CareRequests_MCareRequestId",
+                        column: x => x.MCareRequestId,
                         principalTable: "CareRequests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -97,9 +98,9 @@ namespace HomeCareApp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookings_m_CareRequestId",
+                name: "IX_Bookings_MCareRequestId",
                 table: "Bookings",
-                column: "m_CareRequestId");
+                column: "MCareRequestId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_ProviderId",

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HomeCareApp.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250428161331_Initial")]
+    [Migration("20250429163358_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -31,6 +31,9 @@ namespace HomeCareApp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("MCareRequestId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("ProviderId")
                         .HasColumnType("uuid");
 
@@ -44,14 +47,11 @@ namespace HomeCareApp.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("m_CareRequestId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ProviderId");
+                    b.HasIndex("MCareRequestId");
 
-                    b.HasIndex("m_CareRequestId");
+                    b.HasIndex("ProviderId");
 
                     b.ToTable("Bookings");
                 });
@@ -140,21 +140,21 @@ namespace HomeCareApp.Infrastructure.Migrations
 
             modelBuilder.Entity("HomeCareApp.Domain.Entities.Booking", b =>
                 {
+                    b.HasOne("HomeCareApp.Domain.Entities.CareRequest", "MCareRequest")
+                        .WithMany("Bookings")
+                        .HasForeignKey("MCareRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("HomeCareApp.Domain.Entities.User", "Provider")
                         .WithMany("ProviderBookings")
                         .HasForeignKey("ProviderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HomeCareApp.Domain.Entities.CareRequest", "m_CareRequest")
-                        .WithMany("Bookings")
-                        .HasForeignKey("m_CareRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("MCareRequest");
 
                     b.Navigation("Provider");
-
-                    b.Navigation("m_CareRequest");
                 });
 
             modelBuilder.Entity("HomeCareApp.Domain.Entities.CareRequest", b =>
