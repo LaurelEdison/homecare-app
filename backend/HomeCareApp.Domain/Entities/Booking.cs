@@ -25,10 +25,10 @@ public class Booking
     public Guid ProviderId { get; set; }
     public DateTime RequestedDate { get; set; }
     public string Status { get; set; } =  string.Empty;
-    
-    public CareRequest m_CareRequest { get; set; }
-    public User Provider { get; set; }
-    public ICollection<Review> Reviews { get; set; }
+
+    public CareRequest MCareRequest { get; set; } = null!;
+    public User Provider { get; set; } = null!;
+    public ICollection<Review>? Reviews { get; set; }
     
     
 }

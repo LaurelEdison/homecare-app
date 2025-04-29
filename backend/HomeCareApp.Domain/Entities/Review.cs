@@ -27,7 +27,7 @@ public class Review
     public Guid BookingId { get; set; }
     public int Rating { get; set; } //1-5
     public string? Comments { get; set; } = string.Empty;
-    
-    public Booking Booking { get; set; }
-    
+
+    public Booking Booking { get; set; } = null!;
+
 }
