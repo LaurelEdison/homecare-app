@@ -1,3 +1,4 @@
+using HomeCareApp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using HomeCareApp.Infrastructure.Data;
 var builder = WebApplication.CreateBuilder(args);
@@ -8,9 +9,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<AppDbContext>(opts =>
-    opts.UseNpgsql(connectionString)
-);
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
