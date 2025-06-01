@@ -9,7 +9,7 @@ public class CareRequestRepository : ICareRequestRepository
 {
     private readonly AppDbContext  _context;
 
-    CareRequestRepository(AppDbContext context)
+    public CareRequestRepository(AppDbContext context)
     {
         _context = context;
     }
