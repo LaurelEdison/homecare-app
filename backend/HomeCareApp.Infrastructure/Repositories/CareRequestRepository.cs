@@ -18,9 +18,9 @@ public class CareRequestRepository : ICareRequestRepository
     {
         return await _context.CareRequests.FindAsync(id);
     }
-    public async Task<IEnumerable<CareRequest?>> GetAllByClientIdAsync(Guid clientId)
+    public async Task<List<CareRequest>> GetAllByClientIdAsync(Guid clientId)
     {
-        return await _context.CareRequests.Where(x => x.ClientId == clientId).ToListAsync();
+        return await _context.CareRequests.Where(x => x.ClientId == clientId ).ToListAsync();
     }
     public async Task<IEnumerable<CareRequest?>> GetAllAsync()
     {
