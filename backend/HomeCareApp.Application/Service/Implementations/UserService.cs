@@ -4,7 +4,7 @@ using HomeCareApp.Domain.Interfaces;
 
 namespace HomeCareApp.Application.Service.Implementations;
 
-public class UserService
+public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
 

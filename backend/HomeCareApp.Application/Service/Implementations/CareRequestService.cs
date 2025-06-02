@@ -4,7 +4,7 @@ using HomeCareApp.Domain.Interfaces;
 
 namespace HomeCareApp.Application.Service.Implementations;
 
-public class CareRequestService
+public class CareRequestService : ICareRequestService
 {
     private readonly ICareRequestRepository _repository;
 

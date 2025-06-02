@@ -3,7 +3,7 @@ using HomeCareApp.Domain.Interfaces;
 
 namespace HomeCareApp.Application.Service.Implementations;
 
-public class ReviewService
+public class ReviewService : IReviewService
 {
     private readonly IReviewRepository _repository;
 

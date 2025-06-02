@@ -3,7 +3,7 @@ using HomeCareApp.Domain.Interfaces;
 
 namespace HomeCareApp.Application.Service.Implementations;
 
-public class BookingService
+public class BookingService : IBookingService
 {
     private readonly IBookingRepository _repository;
 
