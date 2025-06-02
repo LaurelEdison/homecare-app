@@ -14,11 +14,11 @@ public class BookingRepository : IBookingRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Booking>> GetByProviderIdAsync(Guid providerId)
+    public async Task<List<Booking>> GetByProviderIdAsync(Guid providerId)
     {
         return await  _context.Bookings.Where(b => b.ProviderId == providerId).ToListAsync();
     }
-    public async Task<IEnumerable<Booking>> GetByClientIdAsync(Guid clientId)
+    public async Task<List<Booking>> GetByClientIdAsync(Guid clientId)
     {
         return await  _context.Bookings.Where(b => b.MCareRequest.ClientId == clientId).ToListAsync();
     }
@@ -47,7 +47,7 @@ public class BookingRepository : IBookingRepository
     {
         return await _context.Bookings.FindAsync(id);
     }
-    public async Task<IEnumerable<Booking>> GetAllAsync()
+    public async Task<List<Booking>> GetAllAsync()
     {
         return await _context.Bookings.ToListAsync();
     }

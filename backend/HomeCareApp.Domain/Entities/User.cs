@@ -21,9 +21,24 @@ public class User
         PasswordHash = password;
     }
 
+    public void ChangePassword(string oldPassword, string newPassword)
+    {
+        if (oldPassword == PasswordHash)
+        {
+            PasswordHash = newPassword;
+        }
+    }
+
     public static User Create(Guid id, Roles role,  string fullName, string email, string password)
     {
         return new User(id,  role,  fullName, email, password);
+    }
+
+    public void Update(string fullName, string email,  Roles roles)
+    {
+        FullName = fullName;
+        Email = email;
+        Role = roles;
     }
     
     public Guid Id { get; set; }

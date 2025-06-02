@@ -18,13 +18,7 @@ public class ReviewRepository : IReviewRepository
     {
         return await _context.Reviews.FindAsync(id);
     }
-
-    public async Task<IEnumerable<Review?>> GetAllAsync()
-    {
-        return await _context.Reviews.ToListAsync();
-    }
-
-    public async Task<IEnumerable<Review?>> GetAllByBookingIdAsync(Guid bookingId)
+    public async Task<List<Review>> GetAllByBookingIdAsync(Guid bookingId)
     {
         return await _context.Reviews.Where(r => r.BookingId == bookingId).ToListAsync();
     }

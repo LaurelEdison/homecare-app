@@ -26,5 +26,10 @@ public class CareRequestService
     {
         return await _repository.GetAllByClientIdAsync(clientId);
     }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        await _repository.DeleteAsync(id);
+    }
     
 }
