@@ -9,7 +9,7 @@ public class UserRepository : IUserRepository
 {
     private readonly AppDbContext  _context;
 
-    UserRepository(AppDbContext context)
+    public UserRepository(AppDbContext context)
     {
         _context = context;
     }
@@ -23,8 +23,8 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users.FindAsync(email);
     }
-
-    public async Task<IEnumerable<User>> GetAllAsync()
+    
+    public async Task<List<User>> GetAllAsync()
     {
         return await _context.Users.ToListAsync();
     }
