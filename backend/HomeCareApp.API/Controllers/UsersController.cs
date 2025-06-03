@@ -14,14 +14,14 @@ public class UsersController : ControllerBase
         _service = service;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("by-id/{id}")]
     public IActionResult Get(Guid id)
     {
         var user = _service.GetById(id);
         return Ok(user);
     }
 
-    [HttpGet("{email}")]
+    [HttpGet("by-email/{email}")]
     public IActionResult Get(string email)
     {
         var user = _service.GetByEmail(email);
@@ -34,7 +34,24 @@ public class UsersController : ControllerBase
         var user = _service.CreateUser(dto);
         return Ok(user);
     }
-    
-    
-    
+
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] UserLoginDto dto)
+    {
+        var user = _service.Login(dto.email, dto.password);
+        if (user == null)
+        {
+            return Unauthorized(new {message = "Invalid credentials"});
+        }
+
+        var response = new UserResponseDto
+        {
+            Id = user.Id,
+            Email = user.Email,
+            FullName = user.FullName
+        };
+        response.FullName = user.FullName;
+        
+        return Ok(response);
+    }
 }

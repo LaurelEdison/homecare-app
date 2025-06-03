@@ -9,6 +9,6 @@ public class UserResponseDto
     public required string Email { get; set; } 
     public string? ProfilePicture { get; set; }
     
-    public ICollection<CareRequest>? CareRequests { get; set; } //Many requests for client
-    public ICollection<Booking>? ProviderBookings { get; set; } //Many bookings if they are provider
+    public List<CareRequest>? CareRequests { get; set; } //Many requests for client
+    public List<Booking>? ProviderBookings { get; set; } //Many bookings if they are provider
 }

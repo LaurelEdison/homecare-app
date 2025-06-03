@@ -68,5 +68,21 @@ public class UserService : IUserService
     {
         return _repository.Delete(guid);
     }
+
+    public User? Login(string email, string password)
+    {
+        var user = _repository.GetByEmail(email);
+        if (user == null)
+        {
+            return null;
+        }
+
+        if (user.PasswordHash != password)
+        {
+            return null;
+        }
+
+        return user;
+    }
     
 }
