@@ -1,3 +1,4 @@
+using HomeCareApp.Application.Dto;
 using HomeCareApp.Domain.Entities;
 using HomeCareApp.Domain.Enums;
 using HomeCareApp.Domain.Interfaces;
@@ -13,20 +14,20 @@ public class CareRequestService : ICareRequestService
         _repository = repository;
     }
 
-    public string CreateCareRequest(Guid clientId, DateTime requestedDate, string address, string notes, int serviceTypes)
+    public string CreateCareRequest(CreateCareRequestDto dto)
     {
-        var request = CareRequest.Create(Guid.NewGuid(), clientId, requestedDate, address);
-        request.Notes = notes;
-        request.ServiceType = (ServiceTypes)serviceTypes;
+        var request = CareRequest.Create(Guid.NewGuid(), dto.ClientId, dto.RequestedDate, dto.Address);
+        request.Notes = dto.Notes;
+        request.ServiceType = dto.ServiceType;
         return _repository.Add(request);
     }
 
-    public List<CareRequest> GetAllByClientIdAsync(Guid clientId)
+    public List<CareRequest> GetAllByClientId(Guid clientId)
     {
         return _repository.GetAllByClientId(clientId);
     }
 
-    public string DeleteAsync(Guid id)
+    public string Delete(Guid id)
     {
         return _repository.Delete(id);
     }

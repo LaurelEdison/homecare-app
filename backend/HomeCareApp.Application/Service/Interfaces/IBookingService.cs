@@ -1,12 +1,13 @@
-﻿using HomeCareApp.Domain.Entities;
+﻿using HomeCareApp.Application.Dto;
+using HomeCareApp.Domain.Entities;
 
 namespace HomeCareApp.Application.Service.Implementations;
 
 public interface IBookingService
 {
     List<Booking> GetByClientId(Guid clientId);
-    List<Booking> GetByProviderId(Guid ProviderId);
+    List<Booking> GetByProviderId(Guid providerId);
     List<Booking> GetAll();
-    string Create(Guid clientId, Guid providerId, DateTime requestedDate, string status);
+    string Create(CreateBookingDto dto);
     string Delete(Guid bookingId);
 }

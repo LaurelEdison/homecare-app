@@ -1,4 +1,5 @@
-﻿using HomeCareApp.Domain.Entities;
+﻿using HomeCareApp.Application.Dto;
+using HomeCareApp.Domain.Entities;
 using HomeCareApp.Domain.Interfaces;
 
 namespace HomeCareApp.Application.Service.Implementations;
@@ -26,10 +27,10 @@ public class BookingService : IBookingService
         return _repository.GetAll();
     }
 
-    public string Create(Guid clientId, Guid providerId, DateTime requestedDate, string status)
+    public string Create(CreateBookingDto dto)
     {
-        var booking = Booking.Create(Guid.NewGuid(), clientId, providerId, requestedDate);
-        booking.Status = status;
+        var booking = Booking.Create(Guid.NewGuid(), dto.RequestId, dto.ProviderId, dto.RequestedDate);
+        booking.Status = dto.Status;
         
         return _repository.Add(booking);
     }

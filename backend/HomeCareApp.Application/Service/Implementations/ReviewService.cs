@@ -1,4 +1,5 @@
-﻿using HomeCareApp.Domain.Entities;
+﻿using HomeCareApp.Application.Dto;
+using HomeCareApp.Domain.Entities;
 using HomeCareApp.Domain.Interfaces;
 
 namespace HomeCareApp.Application.Service.Implementations;
@@ -12,9 +13,9 @@ public class ReviewService : IReviewService
         _repository = repository;
     }
 
-    public string Create(Guid bookingId, int rating)
+    public string Create(CreateReviewDto dto)
     {
-        var review = Review.Create(Guid.NewGuid(), bookingId, rating);
+        var review = Review.Create(Guid.NewGuid(), dto.BookingId, dto.Rating);
         return _repository.Add(review);
     }
 

@@ -1,4 +1,5 @@
-﻿using HomeCareApp.Domain.Entities;
+﻿using HomeCareApp.Application.Dto;
+using HomeCareApp.Domain.Entities;
 using HomeCareApp.Domain.Enums;
 using HomeCareApp.Domain.Interfaces;
 
@@ -27,9 +28,9 @@ public class UserService : IUserService
     {
         return _repository.GetAll();
     }
-    public string CreateUser(Roles role, string firstName, string lastName, string email)
+    public string CreateUser(CreateUserDto dto)
     {
-        var user  = User.Create(Guid.NewGuid(), role, firstName, lastName, email);
+        var user  = User.Create(Guid.NewGuid(), dto.Role, dto.FullName, dto.Email, dto.PasswordHash);
         return _repository.Add(user);
     }
 
