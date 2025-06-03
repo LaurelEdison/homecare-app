@@ -16,9 +16,9 @@ public class BookingService : IBookingService
     {
         return _repository.GetByClientId(clientId);
     }
-     public List<Booking> GetByProviderId(Guid ProviderId)
+     public List<Booking> GetByProviderId(Guid providerId)
     {
-        return _repository.GetByProviderId(ProviderId);
+        return _repository.GetByProviderId(providerId);
     }
 
     public List<Booking> GetAll()
