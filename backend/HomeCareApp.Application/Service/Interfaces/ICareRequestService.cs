@@ -4,7 +4,7 @@ namespace HomeCareApp.Application.Service.Implementations;
 
 public interface ICareRequestService
 {
-    Task<CareRequest> CreateCareRequest(Guid clientId, DateTime requestedDate, string address, string notes, int serviceTypes);
-    Task<List<CareRequest>> GetAllByClientIdAsync(Guid clientId);
-    Task DeleteAsync(Guid id);
+    string CreateCareRequest(Guid clientId, DateTime requestedDate, string address, string notes, int serviceTypes);
+    List<CareRequest> GetAllByClientIdAsync(Guid clientId);
+    string DeleteAsync(Guid id);
 }

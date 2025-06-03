@@ -13,23 +13,22 @@ public class CareRequestService : ICareRequestService
         _repository = repository;
     }
 
-    public async Task<CareRequest> CreateCareRequest(Guid clientId, DateTime requestedDate, string address, string notes, int serviceTypes)
+    public string CreateCareRequest(Guid clientId, DateTime requestedDate, string address, string notes, int serviceTypes)
     {
         var request = CareRequest.Create(Guid.NewGuid(), clientId, requestedDate, address);
         request.Notes = notes;
         request.ServiceType = (ServiceTypes)serviceTypes;
-        await _repository.AddAsync(request);
-        return request;
+        return _repository.Add(request);
     }
 
-    public async Task<List<CareRequest>> GetAllByClientIdAsync(Guid clientId)
+    public List<CareRequest> GetAllByClientIdAsync(Guid clientId)
     {
-        return await _repository.GetAllByClientIdAsync(clientId);
+        return _repository.GetAllByClientId(clientId);
     }
 
-    public async Task DeleteAsync(Guid id)
+    public string DeleteAsync(Guid id)
     {
-        await _repository.DeleteAsync(id);
+        return _repository.Delete(id);
     }
     
 }

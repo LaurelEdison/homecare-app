@@ -12,31 +12,30 @@ public class BookingService : IBookingService
         _repository = repository;
     }
 
-    public async Task<List<Booking>> GetByClientId(Guid clientId)
+    public List<Booking> GetByClientId(Guid clientId)
     {
-        return await _repository.GetByClientIdAsync(clientId);
+        return _repository.GetByClientId(clientId);
     }
-     public async Task<List<Booking>> GetByProviderId(Guid ProviderId)
+     public List<Booking> GetByProviderId(Guid ProviderId)
     {
-        return await _repository.GetByProviderIdAsync(ProviderId);
-    }
-
-    public async Task<List<Booking>> GetAll()
-    {
-        return await _repository.GetAllAsync();
+        return _repository.GetByProviderId(ProviderId);
     }
 
-    public async Task CreateAsync(Guid clientId, Guid providerId, DateTime requestedDate, string status)
+    public List<Booking> GetAll()
+    {
+        return _repository.GetAll();
+    }
+
+    public string Create(Guid clientId, Guid providerId, DateTime requestedDate, string status)
     {
         var booking = Booking.Create(Guid.NewGuid(), clientId, providerId, requestedDate);
         booking.Status = status;
         
-        await _repository.AddAsync(booking);
+        return _repository.Add(booking);
     }
-
-    public async Task DeleteAsync(Guid bookingId)
+    public string Delete(Guid bookingId)
     {
-        await _repository.DeleteAsync(bookingId);
+        return _repository.Delete(bookingId);
     }
     
      

@@ -4,9 +4,9 @@ namespace HomeCareApp.Domain.Interfaces;
 
 public interface IReviewRepository
 {
-    Task<Review?> GetByIdAsync(Guid id);
-    Task<List<Review>> GetAllByBookingIdAsync(Guid bookingId);
-    Task AddAsync(Review review);
-    Task UpdateAsync(Review review);
-    Task DeleteAsync(Guid id);
+    Review GetById(Guid id);
+    List<Review> GetAllByBookingId(Guid bookingId);
+    string Add(Review review);
+    string Update(Review review);
+    string Delete(Guid id);
 }

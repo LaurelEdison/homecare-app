@@ -14,35 +14,41 @@ public class CareRequestRepository : ICareRequestRepository
         _context = context;
     }
     
-    public async Task<CareRequest?> GetByIdAsync(Guid id)
+    public CareRequest? GetById(Guid id)
     {
-        return await _context.CareRequests.FindAsync(id);
+        return _context.CareRequests.Find(id);
     }
-    public async Task<List<CareRequest>> GetAllByClientIdAsync(Guid clientId)
+    public List<CareRequest> GetAllByClientId(Guid clientId)
     {
-        return await _context.CareRequests.Where(x => x.ClientId == clientId ).ToListAsync();
+        return _context.CareRequests.Where(x => x.ClientId == clientId ).ToList();
     }
-    public async Task<IEnumerable<CareRequest?>> GetAllAsync()
+    public List<CareRequest> GetAll()
     {
-        return await _context.CareRequests.ToListAsync();
+        return _context.CareRequests.ToList();
     }
-    public async Task AddAsync(CareRequest request)
+    public string Add(CareRequest request)
     {
-        await _context.CareRequests.AddAsync(request);
-        await _context.SaveChangesAsync();
+        _context.CareRequests.Add(request);
+        _context.SaveChanges();
+        
+        return "Successfully added Care request";
     }
-    public async Task UpdateAsync(CareRequest request)
+    public string Update(CareRequest request)
     {
         _context.CareRequests.Update(request);
-        await _context.SaveChangesAsync();
+        _context.SaveChanges();
+        return "Successfully updated Care request";
     }
-    public async Task DeleteAsync(Guid id)
+    public string Delete(Guid id)
     {
-        var  request = await _context.CareRequests.FindAsync(id);
+        var  request = _context.CareRequests.Find(id);
         if (request != null)
         {
             _context.CareRequests.Remove(request);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
+            return "Successfully deleted Care Request";
         }
+
+        return "Could not find care request";
     }
 }

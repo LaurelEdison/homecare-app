@@ -13,51 +13,59 @@ public class UserService : IUserService
         _repository = repository;
     }
 
-    public async Task<User?> GetByIdAsync(Guid id)
+    public User? GetById(Guid id)
     {
-        return await _repository.GetByIdAsync(id);
+        return _repository.GetById(id);
     }
 
-    public async Task<User?> GetByEmailAsync(string email)
+    public User? GetByEmail(string email)
     {
-        return await _repository.GetByEmailAsync(email);
+        return _repository.GetByEmail(email);
     }
 
-    public async Task<List<User>> GetAllAsync()
+    public List<User> GetAll()
     {
-        return await _repository.GetAllAsync();
+        return _repository.GetAll();
     }
-    public async Task<User> CreateUser(Roles role, string firstName, string lastName, string email)
+    public string CreateUser(Roles role, string firstName, string lastName, string email)
     {
         var user  = User.Create(Guid.NewGuid(), role, firstName, lastName, email);
-        await _repository.AddAsync(user);
-        return user;
+        return _repository.Add(user);
     }
 
-    public async Task<User> UpdateUser(Guid guid,Roles role, string fullName, string email)
+    public string UpdateUser(Guid guid,Roles role, string fullName, string email)
     {
-        var user = await _repository.GetByIdAsync(guid);
+        var user = _repository.GetById(guid);
 
         if (user == null)
         {
-            return null;
+            return "Could not find user";
         }
         user.Update(fullName, email, role);
 
-        await _repository.UpdateAsync(user);
-        
-        return user;
+        return _repository.Update(user);
     }
 
-    public async Task ChangePassword(Guid guid, string oldPassword, string newPassword)
+    public string ChangePassword(Guid guid, string oldPassword, string newPassword)
     {
-        var user = await _repository.GetByIdAsync(guid);
-        user?.ChangePassword(oldPassword, newPassword);
+        var user = _repository.GetById(guid);
+        if (user != null)
+        {
+            user.ChangePassword(oldPassword, newPassword);
+            return "Sucessfully changed password";
+        }
+
+        if (user == null)
+        {
+            return "Could not find user";
+        }
+
+        return "Invalid password";
     }
 
-    public async Task DeleteAsync(Guid guid)
+    public string Delete(Guid guid)
     {
-        await _repository.DeleteAsync(guid);
+        return _repository.Delete(guid);
     }
     
 }

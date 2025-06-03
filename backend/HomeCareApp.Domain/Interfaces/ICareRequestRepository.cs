@@ -4,10 +4,10 @@ namespace HomeCareApp.Domain.Interfaces;
 
 public interface ICareRequestRepository
 {
-    Task<CareRequest?> GetByIdAsync(Guid id);
-    Task<IEnumerable<CareRequest?>> GetAllAsync();
-    Task<List<CareRequest>> GetAllByClientIdAsync(Guid clientId);
-    Task AddAsync(CareRequest request);
-    Task UpdateAsync(CareRequest request);
-    Task DeleteAsync(Guid id);
+    CareRequest? GetById(Guid id);
+    List<CareRequest> GetAll();
+    List<CareRequest> GetAllByClientId(Guid clientId);
+    string Add(CareRequest request);
+    string Update(CareRequest request);
+    string Delete(Guid id);
 }

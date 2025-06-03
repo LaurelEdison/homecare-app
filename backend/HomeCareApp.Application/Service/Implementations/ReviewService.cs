@@ -12,22 +12,20 @@ public class ReviewService : IReviewService
         _repository = repository;
     }
 
-    public async Task<Review> CreateAsync(Guid bookingId, int rating)
+    public string Create(Guid bookingId, int rating)
     {
         var review = Review.Create(Guid.NewGuid(), bookingId, rating);
-        await _repository.AddAsync(review);
-        
-        return review;
+        return _repository.Add(review);
     }
 
-    public async Task<List<Review>> GetAllByBookingIdAsync(Guid bookingId)
+    public List<Review> GetAllByBookingId(Guid bookingId)
     {
-        return await _repository.GetAllByBookingIdAsync(bookingId);
+        return _repository.GetAllByBookingId(bookingId);
     }
 
-    public async Task DeleteReviewAsync(Guid reviewId)
+    public string DeleteReview(Guid reviewId)
     {
-        await _repository.DeleteAsync(reviewId);
+        return _repository.Delete(reviewId);
     }
     
 }
