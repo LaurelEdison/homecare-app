@@ -34,7 +34,7 @@ namespace HomeCareApp.Infrastructure.Migrations
                     b.Property<Guid>("RequestId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("RequestedDate")
+                    b.Property<DateTime?>("RequestedDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Status")

@@ -15,7 +15,7 @@ public class ReviewsController : ControllerBase
         _service = service;
     }
 
-    [HttpPost]
+    [HttpPost("create")]
     public IActionResult CreateReview([FromBody] CreateReviewDto dto)
     {
         var review = _service.Create(dto);

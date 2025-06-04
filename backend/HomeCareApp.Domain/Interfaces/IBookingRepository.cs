@@ -5,6 +5,7 @@ namespace HomeCareApp.Domain.Interfaces;
 public interface IBookingRepository
 {
     List<Booking> GetByProviderId(Guid providerId);
+    List<Booking> GetByProviderEmail(string email);
     List<Booking> GetByClientId(Guid clientId);
     string Add(Booking booking);
     string DeleteOnComplete();

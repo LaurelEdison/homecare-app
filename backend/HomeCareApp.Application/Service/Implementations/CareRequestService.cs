@@ -9,13 +9,11 @@ public class CareRequestService : ICareRequestService
 {
     private readonly ICareRequestRepository _repository;
     private readonly IUserRepository _userRepository;
-    private readonly IBookingService _bookingService;
 
-    public CareRequestService(ICareRequestRepository repository, IUserRepository userRepository, IBookingService bookingService)
+    public CareRequestService(ICareRequestRepository repository, IUserRepository userRepository)
     {
         _repository = repository;
         _userRepository = userRepository;
-        _bookingService = bookingService;
     }
 
     public CareRequest? GetById(Guid id)
@@ -40,9 +38,9 @@ public class CareRequestService : ICareRequestService
         return _repository.Add(request);
     }
 
-    public List<CareRequest> GetAllByClientId(Guid clientId)
+    public List<CareRequest> GetAllByEmail(string email) 
     {
-        return _repository.GetAllByClientId(clientId);
+        return _repository.GetAllByEmail(email);
     }
 
     public string Delete(Guid id)

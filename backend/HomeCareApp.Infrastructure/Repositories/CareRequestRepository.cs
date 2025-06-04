@@ -17,9 +17,9 @@ public class CareRequestRepository : ICareRequestRepository
     {
         return _context.CareRequests.Find(id);
     }
-    public List<CareRequest> GetAllByClientId(Guid clientId)
+    public List<CareRequest> GetAllByEmail(string email)
     {
-        return _context.CareRequests.Where(x => x.ClientId == clientId ).ToList();
+        return _context.CareRequests.Where(x => x.Client.Email == email).ToList();
     }
 
     public List<CareRequest> GetAllUnassigned()

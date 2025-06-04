@@ -10,4 +10,7 @@ public interface IBookingService
     List<Booking> GetAll();
     string Create(CreateBookingDto dto);
     string Delete(Guid bookingId);
+    List<Booking> GetByProviderIdS(Guid providerId);
+    List<Booking> GetByProviderEmail(string email);
+    string DeleteCompletedBookings();
 }

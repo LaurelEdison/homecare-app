@@ -36,13 +36,14 @@ public class BookingsController : ControllerBase
         return Ok(booking);
     }
 
-    [HttpGet("provider/{prodiverId}")]
-    public IActionResult GetByProviderId(Guid prodiverId)
+    [HttpGet("provider/{email}")]
+    public IActionResult GetByProviderEmail(string email)
     {
-        var bookings = _service.GetByProviderId(prodiverId);
+        var bookings = _service.GetByProviderEmail(email);
         return Ok(bookings);
     }
 
+    
     [HttpPost("create")]
     public IActionResult Create([FromBody] CreateBookingDto dto)
     {
@@ -56,6 +57,4 @@ public class BookingsController : ControllerBase
         var response = _service.DeleteCompletedBookings();
         return Ok(response);
     }
-    
-    
 }

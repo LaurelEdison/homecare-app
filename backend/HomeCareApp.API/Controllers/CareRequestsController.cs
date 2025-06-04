@@ -12,10 +12,10 @@ public class CareRequestsController : ControllerBase
     private readonly CareRequestService _service;
 
 
-    [HttpGet("client/{clientId}")]
-    public IActionResult Get(Guid clientId)
+    [HttpGet("client/{email}")]
+    public IActionResult Get(string email)
     {
-        var response = _service.GetAllByClientId(clientId);
+        var response = _service.GetAllByEmail(email);
         return Ok(response);
     }
     public CareRequestsController(CareRequestService service)
@@ -30,13 +30,6 @@ public class CareRequestsController : ControllerBase
         return Ok(request);
     }
     
-    [HttpGet("client/{clientId}")]
-    public IActionResult GetClient(Guid clientId)
-    {
-        var requests = _service.GetAllByClientId(clientId);
-        return Ok(requests);
-    }
-
     [HttpPost]
     public IActionResult Post([FromBody] CreateCareRequestDto dto)
     {

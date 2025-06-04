@@ -18,6 +18,10 @@ public class BookingRepository : IBookingRepository
     {
         return _context.Bookings.Where(b => b.ProviderId == providerId).ToList();
     }
+    public List<Booking> GetByProviderEmail(string email)
+    {
+        return _context.Bookings.Where(b => b.Provider.Email== email).ToList();
+    }
     public List<Booking> GetByClientId(Guid clientId)
     {
         return _context.Bookings.Where(b => b.MCareRequest.ClientId == clientId).ToList();
