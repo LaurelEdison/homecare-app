@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Profile</title>
+  <link rel="stylesheet" href="appointmentstyle2.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Home Alone Logo" />
+      <span>HOME ALONE</span>
+    </div>
+    <div class="profile-icon">👤</div>
+  </header>
+
+  <main>
+    <button class="back-button" onclick="goBack()">←</button>
+
+    <div class="doctor-profile">
+      <img src="doctor.jpg" class="profile-img" alt="Doctor" />
+      <h2>Dr. Jacob Dauersaufen</h2>
+      <p>Gynecologist (5 years Exp)</p>
+
+      <div class="details-box">
+        <div class="detail-item">
+          <span>🧳</span>
+          <div><strong>85+ Years</strong><br>Total Experience</div>
+        </div>
+        <div class="detail-item">
+          <span>⭐</span>
+          <div><strong>4.9</strong> (212)<br>Rating</div>
+        </div>
+      </div>
+
+      <div class="fee">
+        <p>$100</p>
+        <small>Consultation fee</small>
+      </div>
+
+      <div class="availability">
+        <h3>Available Time</h3>
+        <div class="calendar-grid">
+          <div><strong>Fri<br>21</strong><br>16:00</div>
+          <div><strong>Sat<br>22</strong><br>17:00</div>
+          <div><strong>Sun<br>23</strong><br>09:30</div>
+          <div><strong>Mon<br>24</strong><br>11:00</div>
+          <div><strong>Tue<br>25</strong><br>17:30</div>
+          <div><strong>Wed<br>26</strong><br>18:30</div>
+          <div><strong>Thu<br>27</strong><br>12:00</div>
+        </div>
+      </div>
+
+      <div class="reviews">
+        <h3>Review by other patient</h3>
+        <p><strong>4.9 ⭐</strong> — <a href="#">212 reviews</a></p>
+        <div class="review-box">
+          <strong>🗣️ Trisha Adam</strong>
+          <p>The doctor was punctual, professional, and very friendly.</p>
+        </div>
+        <div class="review-box">
+          <strong>🗣️ Bertha Lauren</strong>
+          <p>Highly recommended! Explained my condition clearly and helped me through the app chat.</p>
+        </div>
+      </div>
+
+      <div class="comment-section">
+        <h3>Add Comment</h3>
+        <textarea placeholder="Write your comment here..."></textarea>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function goBack() {
+      window.location.href = "appointment.html";
+    }
+  </script>
+</body>
+</html>

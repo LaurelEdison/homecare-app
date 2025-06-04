@@ -1,0 +1,116 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #fff;
+  color: #333;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  color: #006bb6;
+}
+
+.logo img {
+  width: 100px;
+  height: 100px;
+}
+
+nav a {
+  margin: 0 1rem;
+  text-decoration: none;
+  color: #777;
+}
+
+.profile-icon {
+  font-size: 1.5rem;
+}
+
+main {
+  background: #2f1d8f;
+  color: #fff;
+  padding: 2rem 1rem 1rem;
+  text-align: center;
+}
+
+main h1 {
+  margin-bottom: 1.5rem;
+}
+
+.card-grid {
+  background: #fff;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.doctor-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.doctor-info img {
+  border-radius: 50%;
+  margin-right: 0.75rem;
+}
+
+.doctor-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 80%;
+  object-fit: cover;
+}
+
+.availability {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.availability{
+  color: black;
+}
+
+.text{
+  color: black;
+}
+
+.fee-note {
+  color: #aaa;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  width: 100%;
+  background: #3b26d4;
+  color: #fff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2614a5;
+}
