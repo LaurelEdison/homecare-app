@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HomeCareApp.API.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class ReviewsController : ControllerBase
 {
     private readonly ReviewService _service;

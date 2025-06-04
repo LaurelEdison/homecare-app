@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HomeCareApp.API.Controllers;
 
+[ApiController]
+[Route("api/[controller]")]
 public class BookingsController : ControllerBase
 {
     private readonly BookingService _service;

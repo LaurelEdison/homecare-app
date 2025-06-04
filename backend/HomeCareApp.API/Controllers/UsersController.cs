@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HomeCareApp.API.Controllers;
 
-
+[ApiController]
+[Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
     private readonly UserService _service;
@@ -38,6 +39,10 @@ public class UsersController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromBody] UserLoginDto dto)
     {
+        if (dto == null)
+        {
+            return BadRequest("Dto is null");
+        }
         var user = _service.Login(dto.email, dto.password);
         if (user == null)
         {
@@ -48,7 +53,9 @@ public class UsersController : ControllerBase
         {
             Id = user.Id,
             Email = user.Email,
-            FullName = user.FullName
+            FullName = user.FullName,
+            Role = user.Role,
+            
         };
         response.FullName = user.FullName;
         

@@ -21,7 +21,7 @@ public class UserRepository : IUserRepository
 
     public User? GetByEmail(string email)
     {
-        return _context.Users.Find(email);
+        return _context.Users.FirstOrDefault(u => u.Email == email);
     }
     
     public List<User> GetAll()
