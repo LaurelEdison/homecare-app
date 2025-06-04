@@ -30,7 +30,13 @@ public class UserService : IUserService
     }
     public string CreateUser(CreateUserDto dto)
     {
-        var user  = User.Create(Guid.NewGuid(), dto.Role, dto.FullName, dto.Email, dto.PasswordHash);
+        var user = GetByEmail(dto.Email);
+        if (user != null)
+        {
+            return "User already exists at : " + user.Email;
+        }
+        
+        user  = User.Create(Guid.NewGuid(), dto.Role, dto.FullName, dto.Email, dto.PasswordHash);
         return _repository.Add(user);
     }
 
@@ -69,6 +75,17 @@ public class UserService : IUserService
         return _repository.Delete(guid);
     }
 
+    public string DeleteByEmail(string email)
+    {
+        var user = _repository.GetByEmail(email);
+        if (user == null)
+        {
+            return "Could not find user";
+        }
+
+        Delete(user.Id);
+        return "User successfully deleted";
+    }
     public User? Login(string email, string password)
     {
         var user = _repository.GetByEmail(email);

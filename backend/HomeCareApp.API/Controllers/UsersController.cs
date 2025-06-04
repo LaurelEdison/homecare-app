@@ -32,6 +32,10 @@ public class UsersController : ControllerBase
     [HttpPost("register")]
     public IActionResult Register([FromBody] CreateUserDto dto)
     {
+        if (dto == null)
+        {
+            return BadRequest("Dto is null");
+        }
         var user = _service.CreateUser(dto);
         return Ok(user);
     }
@@ -58,7 +62,18 @@ public class UsersController : ControllerBase
             
         };
         response.FullName = user.FullName;
-        
         return Ok(response);
     }
+    [HttpPost("delete")]
+    public IActionResult Delete(UserDeleteDto dto)
+    {
+        if (dto == null)
+        {
+            return BadRequest("Dto is null");
+        }
+
+        var response = _service.DeleteByEmail(dto.Email);
+        return Ok(response);
+    }
+    
 }
