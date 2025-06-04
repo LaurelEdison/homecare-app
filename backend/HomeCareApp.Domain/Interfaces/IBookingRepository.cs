@@ -7,8 +7,9 @@ public interface IBookingRepository
     List<Booking> GetByProviderId(Guid providerId);
     List<Booking> GetByClientId(Guid clientId);
     string Add(Booking booking);
+    string DeleteOnComplete();
     string Update(Booking booking);
+    string Delete(Guid bookingId);
     Booking? GetById(Guid id);
     List<Booking> GetAll();
-    string Delete(Guid bookingId);
 }
