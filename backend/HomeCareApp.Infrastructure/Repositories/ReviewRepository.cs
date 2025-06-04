@@ -14,34 +14,39 @@ public class ReviewRepository : IReviewRepository
         _context = context;
     }
     
-    public async Task<Review?> GetByIdAsync(Guid id)
+    public Review GetById(Guid id)
     {
-        return await _context.Reviews.FindAsync(id);
+        return _context.Reviews.Find(id)!;
     }
-    public async Task<List<Review>> GetAllByBookingIdAsync(Guid bookingId)
+    public List<Review> GetAllByBookingId(Guid bookingId)
     {
-        return await _context.Reviews.Where(r => r.BookingId == bookingId).ToListAsync();
+        return _context.Reviews.Where(r => r.BookingId == bookingId).ToList();
     }
 
-    public async Task AddAsync(Review review)
+    public string Add(Review review)
     {
         _context.Reviews.Add(review);
-        await _context.SaveChangesAsync();
+        _context.SaveChanges();
+        return "Successfully added review";
     }
 
-    public async Task UpdateAsync(Review review)
+    public string Update(Review review)
     {
         _context.Reviews.Update(review);
-        await _context.SaveChangesAsync();
+        _context.SaveChanges();
+        return "Successfully updated review";
     }
 
-    public async Task DeleteAsync(Guid id)
+    public string Delete(Guid id)
     {
-        var  review = await _context.Reviews.FindAsync(id);
+        var  review = _context.Reviews.Find(id);
         if (review != null)
         {
             _context.Reviews.Remove(review);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
+            return "Successfully deleted review";
         }
+
+        return "Could not find review";
     }
 }

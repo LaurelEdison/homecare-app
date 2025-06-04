@@ -8,41 +8,56 @@ namespace HomeCareApp.Infrastructure.Repositories;
 public class CareRequestRepository : ICareRequestRepository
 {
     private readonly AppDbContext  _context;
-
     public CareRequestRepository(AppDbContext context)
     {
         _context = context;
     }
     
-    public async Task<CareRequest?> GetByIdAsync(Guid id)
+    public CareRequest? GetById(Guid id)
     {
-        return await _context.CareRequests.FindAsync(id);
+        return _context.CareRequests.Find(id);
     }
-    public async Task<List<CareRequest>> GetAllByClientIdAsync(Guid clientId)
+    public List<CareRequest> GetAllByEmail(string email)
     {
-        return await _context.CareRequests.Where(x => x.ClientId == clientId ).ToListAsync();
+        return _context.CareRequests.Where(x => x.Client.Email == email).ToList();
     }
-    public async Task<IEnumerable<CareRequest?>> GetAllAsync()
+
+    public List<CareRequest> GetAllUnassigned()
     {
-        return await _context.CareRequests.ToListAsync();
+        var assignedRequestIds= _context.Bookings.Select(x => x.RequestId).Distinct().ToHashSet().ToList();
+        var unassignedRequests = _context.CareRequests
+            .Where(cr => !assignedRequestIds.Contains(cr.Id))
+            .ToList();
+        return unassignedRequests;
     }
-    public async Task AddAsync(CareRequest request)
+    
+    public List<CareRequest> GetAll()
     {
-        await _context.CareRequests.AddAsync(request);
-        await _context.SaveChangesAsync();
+        return _context.CareRequests.ToList();
     }
-    public async Task UpdateAsync(CareRequest request)
+    public string Add(CareRequest request)
+    {
+        _context.CareRequests.Add(request);
+        _context.SaveChanges();
+        
+        return "Successfully added Care request";
+    }
+    public string Update(CareRequest request)
     {
         _context.CareRequests.Update(request);
-        await _context.SaveChangesAsync();
+        _context.SaveChanges();
+        return "Successfully updated Care request";
     }
-    public async Task DeleteAsync(Guid id)
+    public string Delete(Guid id)
     {
-        var  request = await _context.CareRequests.FindAsync(id);
+        var  request = _context.CareRequests.Find(id);
         if (request != null)
         {
             _context.CareRequests.Remove(request);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
+            return "Successfully deleted Care Request";
         }
+
+        return "Could not find care request";
     }
 }

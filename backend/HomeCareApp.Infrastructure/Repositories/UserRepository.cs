@@ -1,4 +1,5 @@
 using HomeCareApp.Domain.Entities;
+using HomeCareApp.Domain.Enums;
 using HomeCareApp.Domain.Interfaces;
 using HomeCareApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,47 +8,53 @@ namespace HomeCareApp.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly AppDbContext  _context;
+    private readonly AppDbContext _context;
 
     public UserRepository(AppDbContext context)
     {
         _context = context;
     }
 
-    public async Task<User?> GetByIdAsync(Guid id)
+    public User? GetById(Guid id)
     {
-        return await _context.Users.FindAsync(id);
+        return _context.Users.Find(id);
     }
 
-    public async Task<User?> GetByEmailAsync(string email)
+    public User? GetByEmail(string email)
     {
-        return await _context.Users.FindAsync(email);
-    }
-    
-    public async Task<List<User>> GetAllAsync()
-    {
-        return await _context.Users.ToListAsync();
+        return _context.Users.FirstOrDefault(u => u.Email == email);
     }
 
-    public async Task AddAsync(User user)
+    public List<User> GetAll()
     {
-        await _context.Users.AddAsync(user);
-        await _context.SaveChangesAsync();
+        return _context.Users.ToList();
     }
 
-    public async Task UpdateAsync(User user)
+    public List<User> GetByRoles(Roles role)
+    {
+        return _context.Users.Where(u => u.Role == role).ToList();
+    }
+
+    public string Add(User user)
+    {
+        _context.Users.Add(user);
+        _context.SaveChanges();
+        return "Successfully added user";
+    }
+
+    public string Update(User user)
     {
         _context.Users.Update(user);
-        await _context.SaveChangesAsync();
+        _context.SaveChanges();
+        return "Successfully updated user";
     }
 
-    public async Task DeleteAsync(Guid userId)
+    public string Delete(Guid userId)
     {
-        var  user = await _context.Users.FindAsync(userId);
-        if (user != null)
-        {
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-        }
+        var user = _context.Users.Find(userId);
+        if (user == null) return "Could not find user";
+        _context.Users.Remove(user);
+        _context.SaveChanges();
+        return "Successfully deleted user";
     }
 }

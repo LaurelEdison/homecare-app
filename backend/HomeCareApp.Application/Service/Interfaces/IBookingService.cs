@@ -1,12 +1,16 @@
-﻿using HomeCareApp.Domain.Entities;
+﻿using HomeCareApp.Application.Dto;
+using HomeCareApp.Domain.Entities;
 
 namespace HomeCareApp.Application.Service.Implementations;
 
 public interface IBookingService
 {
-    Task<List<Booking>> GetByClientId(Guid clientId);
-    Task<List<Booking>> GetByProviderId(Guid ProviderId);
-    Task<List<Booking>> GetAll();
-    Task CreateAsync(Guid clientId, Guid providerId, DateTime requestedDate, string status);
-    Task DeleteAsync(Guid bookingId);
+    List<Booking> GetByClientId(Guid clientId);
+    List<Booking> GetByProviderId(Guid providerId);
+    List<Booking> GetAll();
+    string Create(CreateBookingDto dto);
+    string Delete(Guid bookingId);
+    List<Booking> GetByProviderIdS(Guid providerId);
+    List<Booking> GetByProviderEmail(string email);
+    string DeleteCompletedBookings();
 }

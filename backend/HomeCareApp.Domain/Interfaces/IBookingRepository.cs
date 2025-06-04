@@ -4,11 +4,13 @@ namespace HomeCareApp.Domain.Interfaces;
 
 public interface IBookingRepository
 {
-    Task<List<Booking>> GetByProviderIdAsync(Guid providerId);
-    Task<List<Booking>> GetByClientIdAsync(Guid clientId);
-    Task AddAsync(Booking booking);
-    Task UpdateAsync(Booking booking);
-    Task<Booking?> GetByIdAsync(Guid id);
-    Task<List<Booking>> GetAllAsync();
-    Task DeleteAsync(Guid bookingId);
+    List<Booking> GetByProviderId(Guid providerId);
+    List<Booking> GetByProviderEmail(string email);
+    List<Booking> GetByClientId(Guid clientId);
+    string Add(Booking booking);
+    string DeleteOnComplete();
+    string Update(Booking booking);
+    string Delete(Guid bookingId);
+    Booking? GetById(Guid id);
+    List<Booking> GetAll();
 }

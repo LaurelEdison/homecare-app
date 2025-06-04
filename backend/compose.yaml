@@ -1,0 +1,45 @@
+﻿version: '3.9'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: earl
+      POSTGRES_PASSWORD: earl
+      POSTGRES_DB: homecare_db
+    ports:
+      - "5432:5432"
+    networks:
+      - homecare-net
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: HomeCareApp.API/Dockerfile
+    container_name: homecareapp.api
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__Default=Host=db;Database=homecare_db;Username=earl;Password=earl
+    ports:
+      - "8080:8080"
+    networks:
+      - homecare-net
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    networks:
+      - homecare-net
+
+volumes:
+  postgres_data:
+
+networks:
+  homecare-net:

@@ -1,0 +1,22 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.9"
+services:
+  api:
+    build:
+      context: "C:\\Users\\arelf\\RiderProjects\\homecare-app\\backend"
+      dockerfile: "HomeCareApp.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/HomeCareApp.API.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "homecareapp.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\arelf\\RiderProjects\\homecare-app\\backend\\HomeCareApp.API:/app:rw"
+    - "C:\\Users\\arelf\\RiderProjects\\homecare-app\\backend:/src:rw"
+    - "C:\\Users\\arelf\\.nuget\\packages:/root/.nuget/packages"
+    working_dir: "/app"

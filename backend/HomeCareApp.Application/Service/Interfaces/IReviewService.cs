@@ -1,10 +1,11 @@
-﻿using HomeCareApp.Domain.Entities;
+﻿using HomeCareApp.Application.Dto;
+using HomeCareApp.Domain.Entities;
 
 namespace HomeCareApp.Application.Service.Implementations;
 
 public interface IReviewService
 {
-    Task<Review> CreateAsync(Guid bookingId, int rating);
-    Task<List<Review>> GetAllByBookingIdAsync(Guid bookingId);
-    Task DeleteReviewAsync(Guid reviewId);
+    string Create(CreateReviewDto dto);
+    List<Review> GetAllByBookingId(Guid bookingId);
+    string DeleteReview(Guid reviewId);
 }

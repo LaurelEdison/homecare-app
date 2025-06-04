@@ -14,44 +14,59 @@ public class BookingRepository : IBookingRepository
         _context = context;
     }
 
-    public async Task<List<Booking>> GetByProviderIdAsync(Guid providerId)
+    public List<Booking> GetByProviderId(Guid providerId)
     {
-        return await  _context.Bookings.Where(b => b.ProviderId == providerId).ToListAsync();
+        return _context.Bookings.Where(b => b.ProviderId == providerId).ToList();
     }
-    public async Task<List<Booking>> GetByClientIdAsync(Guid clientId)
+    public List<Booking> GetByProviderEmail(string email)
     {
-        return await  _context.Bookings.Where(b => b.MCareRequest.ClientId == clientId).ToListAsync();
+        return _context.Bookings.Where(b => b.Provider.Email== email).ToList();
     }
-    public async Task AddAsync(Booking booking)
+    public List<Booking> GetByClientId(Guid clientId)
     {
-        await _context.Bookings.AddAsync(booking);
-        await _context.SaveChangesAsync();
+        return _context.Bookings.Where(b => b.MCareRequest.ClientId == clientId).ToList();
     }
-    public async Task UpdateAsync(Booking booking)
+    public string Add(Booking booking)
     {
-        _context.Bookings.Update(booking);
-        await _context.SaveChangesAsync();
+        _context.Bookings.Add(booking);
+        _context.SaveChanges();
+        return "Successfully added booking";
     }
 
-    public async Task DeleteAsync(Guid bookingId)
+    public string DeleteOnComplete()
     {
-        var booking = await _context.Bookings.FindAsync(bookingId);
+        _context.Bookings.RemoveRange(_context.Bookings.Where(b => b.Status == "Completed"));
+        _context.SaveChanges();
+        return "Successfully deleted completed booking";
+    }
+
+    public string Update(Booking booking)
+    {
+        _context.Bookings.Update(booking);
+        _context.SaveChanges();
+        return "Successfully updated booking";
+        
+    }
+
+    public string Delete(Guid bookingId)
+    {
+        var booking = _context.Bookings.Find(bookingId);
         if (booking != null)
         {
             _context.Bookings.Remove(booking);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
+            return "Successfully removed booking";
         }
+        return "Could not find bookingId";
     }
 
-    public async Task<Booking?> GetByIdAsync(Guid id)
+    public Booking? GetById(Guid id)
     {
-        return await _context.Bookings.FindAsync(id);
+        return _context.Bookings.Find(id);
     }
-    public async Task<List<Booking>> GetAllAsync()
+    public List<Booking> GetAll()
     {
-        return await _context.Bookings.ToListAsync();
+        return _context.Bookings.ToList();
     }
-    
-    
     
 }

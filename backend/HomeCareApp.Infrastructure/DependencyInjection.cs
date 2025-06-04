@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-using HomeCareApp.Domain.Entities;
 using HomeCareApp.Domain.Interfaces;
 using HomeCareApp.Infrastructure.Data;
 using HomeCareApp.Infrastructure.Repositories;
@@ -14,7 +12,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql("DefaultConnection"));
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
         services.AddScoped<ICareRequestRepository, CareRequestRepository>();
         services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped<IUserRepository, UserRepository>();

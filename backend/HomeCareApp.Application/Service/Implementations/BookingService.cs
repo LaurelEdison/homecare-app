@@ -1,4 +1,5 @@
-﻿using HomeCareApp.Domain.Entities;
+﻿using HomeCareApp.Application.Dto;
+using HomeCareApp.Domain.Entities;
 using HomeCareApp.Domain.Interfaces;
 
 namespace HomeCareApp.Application.Service.Implementations;
@@ -6,38 +7,62 @@ namespace HomeCareApp.Application.Service.Implementations;
 public class BookingService : IBookingService
 {
     private readonly IBookingRepository _repository;
+    private readonly ICareRequestRepository _careRequestRepository;
 
-    public BookingService(IBookingRepository repository)
+    public BookingService(IBookingRepository repository, ICareRequestRepository careRequestRepository)
     {
         _repository = repository;
+        _careRequestRepository = careRequestRepository;
     }
 
-    public async Task<List<Booking>> GetByClientId(Guid clientId)
+    public List<Booking> GetByClientId(Guid clientId)
     {
-        return await _repository.GetByClientIdAsync(clientId);
+        return _repository.GetByClientId(clientId);
     }
-     public async Task<List<Booking>> GetByProviderId(Guid ProviderId)
+     public List<Booking> GetByProviderId(Guid providerId)
     {
-        return await _repository.GetByProviderIdAsync(ProviderId);
-    }
-
-    public async Task<List<Booking>> GetAll()
-    {
-        return await _repository.GetAllAsync();
+        return _repository.GetByProviderId(providerId);
     }
 
-    public async Task CreateAsync(Guid clientId, Guid providerId, DateTime requestedDate, string status)
+    public List<Booking> GetAll()
     {
-        var booking = Booking.Create(Guid.NewGuid(), clientId, providerId, requestedDate);
-        booking.Status = status;
+        return _repository.GetAll();
+    }
+
+    public string Create(CreateBookingDto dto)
+    {
+        var booking = Booking.Create(Guid.NewGuid(), dto.RequestId, dto.ProviderId);
+
+        var cr = _careRequestRepository.GetById(dto.RequestId);
+
+        if (cr == null)
+        {
+            return "There is no such care request";
+        }
         
-        await _repository.AddAsync(booking);
+        booking.RequestedDate = cr.RequestedDate;
+        booking.Status = "Pending";
+        
+        return _repository.Add(booking);
+    }
+    public string Delete(Guid bookingId)
+    {
+        return _repository.Delete(bookingId);
     }
 
-    public async Task DeleteAsync(Guid bookingId)
+    public List<Booking> GetByProviderIdS(Guid providerId)
     {
-        await _repository.DeleteAsync(bookingId);
+        return _repository.GetByProviderId(providerId);
     }
-    
-     
+
+    public List<Booking> GetByProviderEmail(string email)
+    {
+        return _repository.GetByProviderEmail(email);
+    }
+    public string DeleteCompletedBookings()
+    {
+        return _repository.DeleteOnComplete();
+    }
+
+
 }

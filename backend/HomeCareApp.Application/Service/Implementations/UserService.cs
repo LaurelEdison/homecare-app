@@ -1,4 +1,5 @@
-﻿using HomeCareApp.Domain.Entities;
+﻿using HomeCareApp.Application.Dto;
+using HomeCareApp.Domain.Entities;
 using HomeCareApp.Domain.Enums;
 using HomeCareApp.Domain.Interfaces;
 
@@ -13,51 +14,96 @@ public class UserService : IUserService
         _repository = repository;
     }
 
-    public async Task<User?> GetByIdAsync(Guid id)
+    public User? GetById(Guid id)
     {
-        return await _repository.GetByIdAsync(id);
+        return _repository.GetById(id);
     }
 
-    public async Task<User?> GetByEmailAsync(string email)
+    public User? GetByEmail(string email)
     {
-        return await _repository.GetByEmailAsync(email);
+        return _repository.GetByEmail(email);
     }
 
-    public async Task<List<User>> GetAllAsync()
+
+    public List<User> GetByRole(Roles role)
     {
-        return await _repository.GetAllAsync();
+        return _repository.GetByRoles(role);
     }
-    public async Task<User> CreateUser(Roles role, string firstName, string lastName, string email)
+    public List<User> GetAll()
     {
-        var user  = User.Create(Guid.NewGuid(), role, firstName, lastName, email);
-        await _repository.AddAsync(user);
-        return user;
+        return _repository.GetAll();
+    }
+    public string CreateUser(CreateUserDto dto)
+    {
+        var user = GetByEmail(dto.Email);
+        if (user != null)
+        {
+            return "User already exists at : " + user.Email;
+        }
+        
+        user  = User.Create(Guid.NewGuid(), dto.Role, dto.FullName, dto.Email, dto.PasswordHash);
+        return _repository.Add(user);
     }
 
-    public async Task<User> UpdateUser(Guid guid,Roles role, string fullName, string email)
+    public string UpdateUser(Guid guid,Roles role, string fullName, string email)
     {
-        var user = await _repository.GetByIdAsync(guid);
+        var user = _repository.GetById(guid);
 
+        if (user == null)
+        {
+            return "Could not find user";
+        }
+        user.Update(fullName, email, role);
+
+        return _repository.Update(user);
+    }
+
+    public string ChangePassword(Guid guid, string oldPassword, string newPassword)
+    {
+        var user = _repository.GetById(guid);
+        if (user != null)
+        {
+            user.ChangePassword(oldPassword, newPassword);
+            return "Sucessfully changed password";
+        }
+
+        if (user == null)
+        {
+            return "Could not find user";
+        }
+
+        return "Invalid password";
+    }
+
+    public string Delete(Guid guid)
+    {
+        return _repository.Delete(guid);
+    }
+
+    public string DeleteByEmail(string email)
+    {
+        var user = _repository.GetByEmail(email);
+        if (user == null)
+        {
+            return "Could not find user";
+        }
+
+        Delete(user.Id);
+        return "User successfully deleted";
+    }
+    public User? Login(string email, string password)
+    {
+        var user = _repository.GetByEmail(email);
         if (user == null)
         {
             return null;
         }
-        user.Update(fullName, email, role);
 
-        await _repository.UpdateAsync(user);
-        
+        if (user.PasswordHash != password)
+        {
+            return null;
+        }
+
         return user;
     }
-
-    public async Task ChangePassword(Guid guid, string oldPassword, string newPassword)
-    {
-        var user = await _repository.GetByIdAsync(guid);
-        user?.ChangePassword(oldPassword, newPassword);
-    }
-
-    public async Task DeleteAsync(Guid guid)
-    {
-        await _repository.DeleteAsync(guid);
-    }
-    
 }

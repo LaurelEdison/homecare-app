@@ -1,15 +1,16 @@
-﻿using HomeCareApp.Domain.Entities;
+﻿using HomeCareApp.Application.Dto;
+using HomeCareApp.Domain.Entities;
 using HomeCareApp.Domain.Enums;
 
 namespace HomeCareApp.Application.Service.Implementations;
 
 public interface IUserService
 {
-    Task<User?> GetByIdAsync(Guid id);
-    Task<User?> GetByEmailAsync(string email);
-    Task<List<User>> GetAllAsync();
-    Task<User> CreateUser(Roles role, string firstName, string lastName, string email);
-    Task<User> UpdateUser(Guid guid,Roles role, string fullName, string email);
-    Task ChangePassword(Guid guid, string oldPassword, string newPassword);
-    Task DeleteAsync(Guid guid);
+    User? GetById(Guid id);
+    User? GetByEmail(string email);
+    List<User> GetAll();
+    string CreateUser(CreateUserDto dto);
+    string UpdateUser(Guid guid,Roles role, string fullName, string email);
+    string ChangePassword(Guid guid, string oldPassword, string newPassword);
+    string Delete(Guid guid);
 }

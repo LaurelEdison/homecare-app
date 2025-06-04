@@ -1,10 +1,13 @@
-﻿using HomeCareApp.Domain.Entities;
+﻿using HomeCareApp.Application.Dto;
+using HomeCareApp.Domain.Entities;
 
 namespace HomeCareApp.Application.Service.Implementations;
 
 public interface ICareRequestService
 {
-    Task<CareRequest> CreateCareRequest(Guid clientId, DateTime requestedDate, string address, string notes, int serviceTypes);
-    Task<List<CareRequest>> GetAllByClientIdAsync(Guid clientId);
-    Task DeleteAsync(Guid id);
+    CareRequest? GetById(Guid id);
+    string CreateCareRequest(CreateCareRequestDto dto);
+    List<CareRequest> GetAllByEmail(string email);
+    string Delete(Guid id);
+    List<CareRequest> GetAllUnassigned();
 }
