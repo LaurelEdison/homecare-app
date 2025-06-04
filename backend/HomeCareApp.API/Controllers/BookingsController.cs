@@ -57,4 +57,11 @@ public class BookingsController : ControllerBase
         var response = _service.DeleteCompletedBookings();
         return Ok(response);
     }
+
+    [HttpPut("{id}/status")]
+    public IActionResult UpdateStatus(Guid id, [FromBody] UpdateBookingStatusDto dto)
+    {
+        var booking = _service.UpdateBookingStatus(id, dto.Status);
+        return Ok(booking);
+    }
 }

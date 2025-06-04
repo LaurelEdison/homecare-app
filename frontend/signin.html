@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home Alone - Startup Website Solution</title>
+    <title>Home Alone - Login/Register</title>
     <link rel="stylesheet" href="signin_style.css" />
   </head>
   <body>
@@ -11,9 +11,7 @@
     <header class="header">
       <div class="container">
         <div class="logo">
-          <div class="logo-icon">
-            <div class="house-icon"></div>
-          </div>
+          <div class="logo-icon"><div class="house-icon"></div></div>
           <span class="logo-text">HOME<br />ALONE</span>
         </div>
         <nav class="nav">
@@ -29,10 +27,11 @@
         <div class="content-wrapper">
           <div class="left-section">
             <h1 class="main-title">
-              A high-quality solution for those who want a beautiful startup
-              website quickly
+              A high-quality solution for those who want healthcare support at
+              home
             </h1>
 
+            <!-- Login Form -->
             <form class="signup-form" id="login-form">
               <input
                 type="email"
@@ -50,9 +49,39 @@
               />
               <button type="submit" class="btn-signin">Sign In</button>
               <p class="terms-text">
-                By signing up, you agree to the
+                By signing in, you agree to the
                 <a href="#" class="terms-link">Terms of Service</a>
               </p>
+            </form>
+
+            <!-- Register Form -->
+            <form class="signup-form" id="register-form">
+              <input
+                type="text"
+                id="reg-name"
+                placeholder="Full name"
+                class="input-field"
+                required
+              />
+              <input
+                type="email"
+                id="reg-email"
+                placeholder="Email"
+                class="input-field"
+                required
+              />
+              <input
+                type="password"
+                id="reg-password"
+                placeholder="Password"
+                class="input-field"
+                required
+              />
+              <select id="reg-role" class="input-field">
+                <option value="1">Client</option>
+                <option value="2">Provider</option>
+              </select>
+              <button type="submit" class="btn-signin">Sign Up</button>
             </form>
           </div>
 
@@ -61,14 +90,11 @@
               <div class="video-placeholder">
                 <div class="play-button">▶</div>
               </div>
-              <div class="profile-card">
-                <div class="profile-image"></div>
-              </div>
+              <div class="profile-card"><div class="profile-image"></div></div>
             </div>
             <p class="description-text">
-              We made it so beautiful and simple. It combines landings, pages,
-              blogs and shop screens. It is definitely the tool you need in your
-              collection!
+              Built for seamless healthcare booking. Patients, providers, and
+              care — all in one place.
             </p>
           </div>
         </div>
@@ -80,12 +106,9 @@
       <div class="container">
         <div class="footer-content">
           <div class="footer-logo">
-            <div class="logo-icon">
-              <div class="house-icon white"></div>
-            </div>
+            <div class="logo-icon"><div class="house-icon white"></div></div>
             <span class="logo-text white">HOME<br />ALONE</span>
           </div>
-
           <div class="footer-links">
             <a href="#" class="footer-link">Privacy Policy</a>
             <a href="#" class="footer-link">Terms</a>
@@ -96,44 +119,85 @@
             </div>
           </div>
         </div>
-
         <div class="footer-bottom">
           <p class="copyright">© 2017 SE—B27. All rights reserved.</p>
         </div>
       </div>
     </footer>
 
-    <!-- Login script -->
+    <!-- Script -->
     <script>
+      // Toggle Forms
+      document.querySelector(".btn-signup").addEventListener("click", () => {
+        document.getElementById("login-form").style.display = "none";
+        document.getElementById("register-form").style.display = "block";
+      });
+
+      document.querySelector(".btn-login").addEventListener("click", () => {
+        document.getElementById("register-form").style.display = "none";
+        document.getElementById("login-form").style.display = "block";
+      });
+
+      // Default state: login form only
+      document.getElementById("register-form").style.display = "none";
+
+      // Handle Login
       document
         .getElementById("login-form")
         .addEventListener("submit", function (event) {
           event.preventDefault();
-
           const email = document.getElementById("email").value;
           const password = document.getElementById("password").value;
 
           fetch("http://localhost:8080/api/users/login", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              Email: email, // <-- Fix here
-              Password: password,
-            }),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email, password: password }),
           })
-            .then((response) => {
-              if (!response.ok) throw new Error("Login failed");
-              return response.json();
+            .then((res) => {
+              if (!res.ok) throw new Error("Login failed");
+              return res.json();
             })
             .then((user) => {
               alert(`Welcome, ${user.fullName || user.email}!`);
-              console.log("Logged in user:", user);
+              localStorage.setItem("userId", user.id);
+              localStorage.setItem("userRole", user.role);
+              localStorage.setItem("userEmail", user.email);
+              window.location.href = "appointment.html";
             })
-            .catch((error) => {
+            .catch((err) => {
               alert("Invalid email or password.");
-              console.error(error);
+              console.error(err);
+            });
+        });
+
+      // Handle Register
+      document
+        .getElementById("register-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const fullName = document.getElementById("reg-name").value;
+          const email = document.getElementById("reg-email").value;
+          const password = document.getElementById("reg-password").value;
+          const role = parseInt(document.getElementById("reg-role").value);
+
+          fetch("http://localhost:8080/api/users/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fullName: fullName,
+              email: email,
+              passwordHash: password,
+              role: role,
+            }),
+          })
+            .then((res) => res.text())
+            .then((message) => {
+              alert(message);
+              if (message.trim() === "Successfully added user") {
+                document.getElementById("register-form").reset();
+                document.querySelector(".btn-login").click(); // Show login form
+              }
             });
         });
     </script>

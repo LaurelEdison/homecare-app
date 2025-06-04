@@ -35,7 +35,7 @@ public class BookingRepository : IBookingRepository
 
     public string DeleteOnComplete()
     {
-        _context.Bookings.RemoveRange(_context.Bookings.Where(b => b.Status == "Completed"));
+        _context.Bookings.RemoveRange(_context.Bookings.Where(b => b.Status == "Completed" || b.Status == "Rejected"));
         _context.SaveChanges();
         return "Successfully deleted completed booking";
     }
@@ -48,6 +48,14 @@ public class BookingRepository : IBookingRepository
         
     }
 
+    public bool UpdateStatus(Guid id, string status)
+    {
+        var booking = _context.Bookings.FirstOrDefault(b => b.Id == id);
+        if (booking == null) return false;
+        booking.Status = status;
+        _context.SaveChanges();
+        return true;
+    }
     public string Delete(Guid bookingId)
     {
         var booking = _context.Bookings.Find(bookingId);

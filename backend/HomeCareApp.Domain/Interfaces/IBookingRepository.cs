@@ -10,6 +10,7 @@ public interface IBookingRepository
     string Add(Booking booking);
     string DeleteOnComplete();
     string Update(Booking booking);
+    bool UpdateStatus(Guid id, string status);
     string Delete(Guid bookingId);
     Booking? GetById(Guid id);
     List<Booking> GetAll();

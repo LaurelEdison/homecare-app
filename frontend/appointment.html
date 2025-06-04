@@ -1,101 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Book Appointment</title>
-  <link rel="stylesheet" href="appointmentstyle.css"/>
-</head>
-<body>
-  <header>
-    <div class="logo"><img src="logo.png" alt="Home Alone Logo" /></div>
-    <nav>
-      <a href="#">Booking</a>
-      <a href="#">Appointment</a>
-      <a href="#">History</a>
-    </nav>
-    <div class="profile-icon">👤</div>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Appointment</title>
+    <link rel="stylesheet" href="appointmentstyle.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo"><img src="logo.png" alt="Home Alone Logo" /></div>
+      <nav>
+        <a href="appointment2.html">Booking</a>
+        <a href="#">Appointment</a>
+        <a href="#">History</a>
+      </nav>
+      <div class="profile-icon">👤</div>
+    </header>
 
-  <main>
-    <h1>Book Appointment</h1>
-    <div class="card-grid">
-      <div class="card">
-        <div class="doctor-info">
-          <img src="https://images.stockcake.com/public/b/1/c/b1ccd047-7a69-4063-8391-158835dbdae7_large/confident-young-doctor-stockcake.jpg" class="doctor-img" />
-          <div class="text">
-            <strong>Dr. Jacob Dauersaufen</strong><br/>
-            Gynecologist (5 years Exp)
-          </div>
-        </div>
-        <div class="availability">
-          <span>Available Now</span>
-          <span class="fee">$180</span>
-        </div>
-        <div class="fee-note">Consultation Fee</div>
-        <button>Book Appointments</button>
-      </div>
-      <div class="card">
-        <div class="doctor-info">
-          <img src="https://images.stockcake.com/public/b/1/c/b1ccd047-7a69-4063-8391-158835dbdae7_large/confident-young-doctor-stockcake.jpg" class="doctor-img" />
-          <div class="text">
-            <strong>Dr. Jacob Dauersaufen</strong><br/>
-            Gynecologist (5 years Exp)
-          </div>
-        </div>
-        <div class="availability">
-          <span>Available Now</span>
-          <span class="fee">$180</span>
-        </div>
-        <div class="fee-note">Consultation Fee</div>
-        <button>Book Appointments</button>
-      </div>
-      <div class="card">
-        <div class="doctor-info">
-          <img src="https://images.stockcake.com/public/b/1/c/b1ccd047-7a69-4063-8391-158835dbdae7_large/confident-young-doctor-stockcake.jpg" class="doctor-img" />
-          <div class="text">
-            <strong>Dr. Jacob Dauersaufen</strong><br/>
-            Gynecologist (5 years Exp)
-          </div>
-        </div>
-        <div class="availability">
-          <span>Available Now</span>
-          <span class="fee">$180</span>
-        </div>
-        <div class="fee-note">Consultation Fee</div>
-        <button>Book Appointments</button>
-      </div>
-      <div class="card">
-        <div class="doctor-info">
-          <img src="https://images.stockcake.com/public/b/1/c/b1ccd047-7a69-4063-8391-158835dbdae7_large/confident-young-doctor-stockcake.jpg" class="doctor-img" />
-          <div class="text">
-            <strong>Dr. Jacob Dauersaufen</strong><br/>
-            Gynecologist (5 years Exp)
-          </div>
-        </div>
-        <div class="availability">
-          <span>Available Now</span>
-          <span class="fee">$180</span>
-        </div>
-        <div class="fee-note">Consultation Fee</div>
-        <button>Book Appointments</button>
-      </div>
-      <div class="card">
-        <div class="doctor-info">
-          <img src="https://images.stockcake.com/public/b/1/c/b1ccd047-7a69-4063-8391-158835dbdae7_large/confident-young-doctor-stockcake.jpg" class="doctor-img" />
-          <div class="text">
-            <strong>Dr. Jacob Dauersaufen</strong><br/>
-            Gynecologist (5 years Exp)
-          </div>
-        </div>
-        <div class="availability">
-          <span>Available Now</span>
-          <span class="fee">$180</span>
-        </div>
-        <div class="fee-note">Consultation Fee</div>
-        <button>Book Appointments</button>
-      </div>
-    </div>
-  </main>
-</body>
+    <main>
+      <h1>Appointments</h1>
+
+      <!-- CLIENT SECTION -->
+      <section id="client-section" style="display: none">
+        <h2>Create a Care Request</h2>
+        <form id="care-request-form">
+          <label for="requested-date">Date:</label>
+          <input type="date" id="requested-date" required /><br />
+
+          <label for="address">Address:</label>
+          <input type="text" id="address" required /><br />
+
+          <label for="notes">Notes:</label>
+          <textarea id="notes" placeholder="Optional notes..."></textarea><br />
+
+          <label for="service-type">Service Type:</label>
+          <select id="service-type">
+            <option value="0">Nursing</option>
+            <option value="1">Physiotherapy</option>
+            <option value="2">Companionship</option></select
+          ><br />
+
+          <button type="submit">Submit Request</button>
+        </form>
+      </section>
+
+      <!-- PROVIDER SECTION -->
+      <section id="provider-section" style="display: none">
+        <h2>Available Care Requests to Accept</h2>
+        <div id="request-list">Loading...</div>
+      </section>
+    </main>
+
+    <script>
+      const role = parseInt(localStorage.getItem("userRole"));
+      const email = localStorage.getItem("userEmail");
+      const userId = localStorage.getItem("userId");
+
+      if (!role || !email || !userId) {
+        alert("You must be logged in.");
+        window.location.href = "signin.html";
+      }
+
+      const clientSection = document.getElementById("client-section");
+      const providerSection = document.getElementById("provider-section");
+
+      if (role === 1) {
+        // Show client view
+        clientSection.style.display = "block";
+
+        document
+          .getElementById("care-request-form")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const requestData = {
+              clientEmail: email,
+              requestedDate: document.getElementById("requested-date").value,
+              address: document.getElementById("address").value,
+              notes: document.getElementById("notes").value,
+              serviceType: parseInt(
+                document.getElementById("service-type").value
+              ),
+            };
+
+            fetch("http://localhost:8080/api/carerequests/create", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(requestData),
+            })
+              .then((res) => res.text())
+              .then((msg) => alert(msg));
+          });
+      } else if (role === 2) {
+        // Show provider view
+        providerSection.style.display = "block";
+
+        fetch("http://localhost:8080/api/carerequests/unassigned")
+          .then((res) => res.json())
+          .then((requests) => {
+            const list = document.getElementById("request-list");
+            list.innerHTML = "";
+
+            if (!requests.length) {
+              list.innerHTML = `<div style="text-align: center; padding: 2rem; color: #555;">
+  <p>No unassigned care requests available.</p>
+</div>`;
+              return;
+            }
+
+            requests.forEach((r) => {
+              const div = document.createElement("div");
+              div.style.border = "1px solid #ccc";
+              div.style.padding = "10px";
+              div.style.marginBottom = "10px";
+              div.innerHTML = `
+              <p><strong>Date:</strong> ${new Date(
+                r.requestedDate
+              ).toLocaleDateString()}</p>
+              <p><strong>Address:</strong> ${r.address}</p>
+              <p><strong>Service Type:</strong> ${r.serviceType}</p>
+              <p><strong>Notes:</strong> ${r.notes || "None"}</p>
+              <button onclick="acceptRequest('${r.id}')">Accept Request</button>
+            `;
+              list.appendChild(div);
+            });
+          });
+
+        window.acceptRequest = function (requestId) {
+          fetch("http://localhost:8080/api/bookings/create", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              requestId: requestId,
+              providerId: userId,
+            }),
+          })
+            .then((res) => res.text())
+            .then((msg) => {
+              alert(msg);
+              location.reload();
+            });
+        };
+      }
+    </script>
+  </body>
 </html>

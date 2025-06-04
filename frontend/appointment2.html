@@ -1,81 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Doctor Profile</title>
-  <link rel="stylesheet" href="appointmentstyle2.css" />
-</head>
-<body>
-  <header>
-    <div class="logo">
-      <img src="logo.png" alt="Home Alone Logo" />
-      <span>HOME ALONE</span>
-    </div>
-    <div class="profile-icon">👤</div>
-  </header>
-
-  <main>
-    <button class="back-button" onclick="goBack()">←</button>
-
-    <div class="doctor-profile">
-      <img src="doctor.jpg" class="profile-img" alt="Doctor" />
-      <h2>Dr. Jacob Dauersaufen</h2>
-      <p>Gynecologist (5 years Exp)</p>
-
-      <div class="details-box">
-        <div class="detail-item">
-          <span>🧳</span>
-          <div><strong>85+ Years</strong><br>Total Experience</div>
-        </div>
-        <div class="detail-item">
-          <span>⭐</span>
-          <div><strong>4.9</strong> (212)<br>Rating</div>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking Details</title>
+    <link rel="stylesheet" href="appointmentstyle2.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <img src="logo.png" alt="Home Alone Logo" />
+        <span>HOME ALONE</span>
       </div>
+      <div class="profile-icon">👤</div>
+    </header>
 
-      <div class="fee">
-        <p>$100</p>
-        <small>Consultation fee</small>
-      </div>
+    <main>
+      <button class="back-button" onclick="goBack()">←</button>
 
-      <div class="availability">
-        <h3>Available Time</h3>
-        <div class="calendar-grid">
-          <div><strong>Fri<br>21</strong><br>16:00</div>
-          <div><strong>Sat<br>22</strong><br>17:00</div>
-          <div><strong>Sun<br>23</strong><br>09:30</div>
-          <div><strong>Mon<br>24</strong><br>11:00</div>
-          <div><strong>Tue<br>25</strong><br>17:30</div>
-          <div><strong>Wed<br>26</strong><br>18:30</div>
-          <div><strong>Thu<br>27</strong><br>12:00</div>
+      <div class="doctor-profile">
+        <h2>Booking Details</h2>
+        <div id="booking-details">Loading booking...</div>
+
+        <div class="reviews">
+          <h3>Reviews</h3>
+          <div id="review-list">Loading reviews...</div>
         </div>
-      </div>
 
-      <div class="reviews">
-        <h3>Review by other patient</h3>
-        <p><strong>4.9 ⭐</strong> — <a href="#">212 reviews</a></p>
-        <div class="review-box">
-          <strong>🗣️ Trisha Adam</strong>
-          <p>The doctor was punctual, professional, and very friendly.</p>
+        <div
+          class="comment-section"
+          id="client-review-form"
+          style="display: none"
+        >
+          <h3>Add Comment</h3>
+          <textarea
+            id="review-text"
+            placeholder="Write your comment here..."
+          ></textarea>
+          <button onclick="submitReview()">Submit Review</button>
         </div>
-        <div class="review-box">
-          <strong>🗣️ Bertha Lauren</strong>
-          <p>Highly recommended! Explained my condition clearly and helped me through the app chat.</p>
+
+        <div id="status-buttons" style="display: none; margin-top: 1rem">
+          <h3>Update Booking Status</h3>
+          <button
+            onclick="updateStatus('Completed')"
+            style="background: #28a745"
+          >
+            ✅ Mark as Completed
+          </button>
+          <button
+            onclick="updateStatus('Rejected')"
+            style="background: #dc3545"
+          >
+            ❌ Reject Booking
+          </button>
         </div>
       </div>
+    </main>
 
-      <div class="comment-section">
-        <h3>Add Comment</h3>
-        <textarea placeholder="Write your comment here..."></textarea>
-      </div>
-    </div>
-  </main>
+    <script>
+      const role = parseInt(localStorage.getItem("userRole"));
+      const email = localStorage.getItem("userEmail");
+      const userId = localStorage.getItem("userId");
 
-  <script>
-    function goBack() {
-      window.location.href = "appointment.html";
-    }
-  </script>
-</body>
+      if (!role || !email || !userId) {
+        alert("You must be logged in.");
+        window.location.href = "signin.html";
+      }
+
+      let currentBookingId = null;
+
+      function goBack() {
+        window.location.href = "appointment.html";
+      }
+
+      function loadBooking() {
+        const url =
+          role === 1
+            ? `http://localhost:8080/api/bookings/client/${userId}`
+            : `http://localhost:8080/api/bookings/provider/${email}`;
+
+        fetch(url)
+          .then((res) => res.json())
+          .then((data) => {
+            if (!data.length) {
+              document.getElementById("booking-details").innerText =
+                "No bookings found.";
+              return;
+            }
+
+            const booking = data[0]; // just show the first booking
+            currentBookingId = booking.id;
+
+            document.getElementById("booking-details").innerHTML = `
+              <p><strong>Status:</strong> ${booking.status}</p>
+              <p><strong>Provider ID:</strong> ${booking.providerId}</p>
+              <p><strong>Requested Date:</strong> ${new Date(
+                booking.requestedDate
+              ).toLocaleDateString()}</p>
+            `;
+
+            if (role === 1) {
+              document.getElementById("client-review-form").style.display =
+                "block";
+              document.getElementById("status-buttons").style.display = "block";
+            }
+          });
+      }
+
+      function submitReview() {
+        const text = document.getElementById("review-text").value.trim();
+        if (!text) {
+          alert("Please enter a review.");
+          return;
+        }
+
+        fetch("http://localhost:8080/api/reviews/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            bookingId: currentBookingId,
+            clientEmail: email,
+            content: text,
+          }),
+        })
+          .then((res) => res.text())
+          .then((msg) => {
+            alert(msg);
+            loadReviews(); // refresh list
+            document.getElementById("review-text").value = "";
+          });
+      }
+
+      function loadReviews() {
+        fetch("http://localhost:8080/api/reviews/all")
+          .then((res) => res.json())
+          .then((reviews) => {
+            const container = document.getElementById("review-list");
+            container.innerHTML = "";
+
+            reviews
+              .filter((r) => r.bookingId === currentBookingId)
+              .forEach((r) => {
+                const box = document.createElement("div");
+                box.className = "review-box";
+                box.innerHTML = `
+                <strong>🗣️ ${r.clientEmail}</strong>
+                <p>${r.content}</p>
+              `;
+                container.appendChild(box);
+              });
+          });
+      }
+
+      function updateStatus(status) {
+        fetch(`http://localhost:8080/api/bookings/${currentBookingId}/status`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status }),
+        })
+          .then((res) => res.text())
+          .then((msg) => {
+            alert(msg);
+            loadBooking(); // refresh
+          });
+      }
+
+      // Initial load
+      loadBooking();
+      loadReviews();
+    </script>
+  </body>
 </html>

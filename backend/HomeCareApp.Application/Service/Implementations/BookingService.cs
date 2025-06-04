@@ -64,5 +64,11 @@ public class BookingService : IBookingService
         return _repository.DeleteOnComplete();
     }
 
+    public bool UpdateBookingStatus(Guid bookingId, string status)
+    {
+        
+        return _repository.UpdateStatus(bookingId ,status);
+    }
+
 
 }
