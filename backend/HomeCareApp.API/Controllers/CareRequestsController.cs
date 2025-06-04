@@ -11,11 +11,25 @@ public class CareRequestsController : ControllerBase
 {
     private readonly CareRequestService _service;
 
+
+    [HttpGet("client/{clientId}")]
+    public IActionResult Get(Guid clientId)
+    {
+        var response = _service.GetAllByClientId(clientId);
+        return Ok(response);
+    }
     public CareRequestsController(CareRequestService service)
     {
         _service = service;
     }
 
+    [HttpPost("create")]
+    public IActionResult Create([FromBody] CreateCareRequestDto dto)
+    {
+        var request = _service.CreateCareRequest(dto);
+        return Ok(request);
+    }
+    
     [HttpGet("client/{clientId}")]
     public IActionResult GetClient(Guid clientId)
     {
