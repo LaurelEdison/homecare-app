@@ -1,6 +1,5 @@
 ﻿using HomeCareApp.Application.Dto;
 using HomeCareApp.Application.Service.Implementations;
-using HomeCareApp.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeCareApp.API.Controllers;
@@ -15,14 +14,7 @@ public class BookingsController : ControllerBase
     {
         _service = service;
     }
-
-    [HttpGet("provider/{prodiverId}")]
-    public IActionResult GetProvider(Guid prodiverId)
-    {
-        var bookings = _service.GetByProviderId(prodiverId);
-        return Ok(bookings);
-    }
-
+    
     [HttpGet("client/{clientId}")]
     public IActionResult GetClient(Guid clientId)
     {
@@ -43,5 +35,27 @@ public class BookingsController : ControllerBase
         var booking = _service.Delete(id);
         return Ok(booking);
     }
+
+    [HttpGet("provider/{prodiverId}")]
+    public IActionResult GetByProviderId(Guid prodiverId)
+    {
+        var bookings = _service.GetByProviderId(prodiverId);
+        return Ok(bookings);
+    }
+
+    [HttpPost("create")]
+    public IActionResult Create([FromBody] CreateBookingDto dto)
+    {
+        var booking = _service.Create(dto);
+        return Ok(booking);
+    }
+
+    [HttpGet("deletecompletedbookings")]
+    public IActionResult DeleteCompletedBookings()
+    {
+        var response = _service.DeleteCompletedBookings();
+        return Ok(response);
+    }
+    
     
 }

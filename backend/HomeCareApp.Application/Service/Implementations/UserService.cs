@@ -24,6 +24,11 @@ public class UserService : IUserService
         return _repository.GetByEmail(email);
     }
 
+
+    public List<User> GetByRole(Roles role)
+    {
+        return _repository.GetByRoles(role);
+    }
     public List<User> GetAll()
     {
         return _repository.GetAll();
@@ -101,5 +106,4 @@ public class UserService : IUserService
 
         return user;
     }
-    
 }

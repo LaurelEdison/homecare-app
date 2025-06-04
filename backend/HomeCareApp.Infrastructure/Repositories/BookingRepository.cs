@@ -27,9 +27,15 @@ public class BookingRepository : IBookingRepository
         _context.Bookings.Add(booking);
         _context.SaveChanges();
         return "Successfully added booking";
-        
-
     }
+
+    public string DeleteOnComplete()
+    {
+        _context.Bookings.RemoveRange(_context.Bookings.Where(b => b.Status == "Completed"));
+        _context.SaveChanges();
+        return "Successfully deleted completed booking";
+    }
+
     public string Update(Booking booking)
     {
         _context.Bookings.Update(booking);
@@ -58,7 +64,5 @@ public class BookingRepository : IBookingRepository
     {
         return _context.Bookings.ToList();
     }
-    
-    
     
 }

@@ -9,11 +9,18 @@ public class CareRequestService : ICareRequestService
 {
     private readonly ICareRequestRepository _repository;
     private readonly IUserRepository _userRepository;
+    private readonly IBookingService _bookingService;
 
-    public CareRequestService(ICareRequestRepository repository, IUserRepository userRepository)
+    public CareRequestService(ICareRequestRepository repository, IUserRepository userRepository, IBookingService bookingService)
     {
         _repository = repository;
         _userRepository = userRepository;
+        _bookingService = bookingService;
+    }
+
+    public CareRequest? GetById(Guid id)
+    {
+        return _repository.GetById(id);
     }
 
     public string CreateCareRequest(CreateCareRequestDto dto)
@@ -41,6 +48,11 @@ public class CareRequestService : ICareRequestService
     public string Delete(Guid id)
     {
         return _repository.Delete(id);
+    }
+
+    public List<CareRequest> GetAllUnassigned()
+    {
+        return _repository.GetAllUnassigned();
     }
     
 }

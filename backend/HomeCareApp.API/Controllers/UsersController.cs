@@ -1,5 +1,6 @@
 ﻿using HomeCareApp.Application.Dto;
 using HomeCareApp.Application.Service.Implementations;
+using HomeCareApp.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeCareApp.API.Controllers;
@@ -27,6 +28,13 @@ public class UsersController : ControllerBase
     {
         var user = _service.GetByEmail(email);
         return Ok(user);
+    }
+
+    [HttpGet("by-role/{role}")]
+    public IActionResult GetByRole(Roles role)
+    {
+        var response = _service.GetByRole(role);
+        return Ok(response);
     }
 
     [HttpPost("register")]

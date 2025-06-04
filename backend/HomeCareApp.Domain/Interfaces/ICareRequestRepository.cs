@@ -5,8 +5,9 @@ namespace HomeCareApp.Domain.Interfaces;
 public interface ICareRequestRepository
 {
     CareRequest? GetById(Guid id);
-    List<CareRequest> GetAll();
     List<CareRequest> GetAllByClientId(Guid clientId);
+    List<CareRequest> GetAllUnassigned();
+    List<CareRequest> GetAll();
     string Add(CareRequest request);
     string Update(CareRequest request);
     string Delete(Guid id);

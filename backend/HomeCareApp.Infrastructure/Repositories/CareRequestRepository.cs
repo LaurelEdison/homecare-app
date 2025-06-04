@@ -8,7 +8,6 @@ namespace HomeCareApp.Infrastructure.Repositories;
 public class CareRequestRepository : ICareRequestRepository
 {
     private readonly AppDbContext  _context;
-
     public CareRequestRepository(AppDbContext context)
     {
         _context = context;
@@ -22,6 +21,16 @@ public class CareRequestRepository : ICareRequestRepository
     {
         return _context.CareRequests.Where(x => x.ClientId == clientId ).ToList();
     }
+
+    public List<CareRequest> GetAllUnassigned()
+    {
+        var assignedRequestIds= _context.Bookings.Select(x => x.RequestId).Distinct().ToHashSet().ToList();
+        var unassignedRequests = _context.CareRequests
+            .Where(cr => !assignedRequestIds.Contains(cr.Id))
+            .ToList();
+        return unassignedRequests;
+    }
+    
     public List<CareRequest> GetAll()
     {
         return _context.CareRequests.ToList();

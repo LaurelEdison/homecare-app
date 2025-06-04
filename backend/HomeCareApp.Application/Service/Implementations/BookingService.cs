@@ -38,6 +38,16 @@ public class BookingService : IBookingService
     {
         return _repository.Delete(bookingId);
     }
-    
-     
+
+    public List<Booking> GetByProviderIdS(Guid providerId)
+    {
+        return _repository.GetByProviderId(providerId);
+    }
+
+    public string DeleteCompletedBookings()
+    {
+        return _repository.DeleteOnComplete();
+    }
+
+
 }

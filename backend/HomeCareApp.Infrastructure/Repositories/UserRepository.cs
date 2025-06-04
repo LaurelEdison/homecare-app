@@ -1,4 +1,5 @@
 using HomeCareApp.Domain.Entities;
+using HomeCareApp.Domain.Enums;
 using HomeCareApp.Domain.Interfaces;
 using HomeCareApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,7 @@ namespace HomeCareApp.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly AppDbContext  _context;
+    private readonly AppDbContext _context;
 
     public UserRepository(AppDbContext context)
     {
@@ -23,10 +24,15 @@ public class UserRepository : IUserRepository
     {
         return _context.Users.FirstOrDefault(u => u.Email == email);
     }
-    
+
     public List<User> GetAll()
     {
         return _context.Users.ToList();
+    }
+
+    public List<User> GetByRoles(Roles role)
+    {
+        return _context.Users.Where(u => u.Role == role).ToList();
     }
 
     public string Add(User user)
@@ -45,11 +51,10 @@ public class UserRepository : IUserRepository
 
     public string Delete(Guid userId)
     {
-        var  user = _context.Users.Find(userId);
+        var user = _context.Users.Find(userId);
         if (user == null) return "Could not find user";
         _context.Users.Remove(user);
         _context.SaveChanges();
         return "Successfully deleted user";
-
     }
 }
