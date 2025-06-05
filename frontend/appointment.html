@@ -14,7 +14,22 @@
         <a href="#">Appointment</a>
         <a href="#">History</a>
       </nav>
-      <div class="profile-icon">👤</div>
+      <div class="profile-icon">
+        👤
+        <button
+          onclick="logout()"
+          style="
+            padding: 0.5rem 1rem;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+          "
+        >
+          Logout
+        </button>
+      </div>
     </header>
 
     <main>
@@ -141,6 +156,10 @@
               location.reload();
             });
         };
+      }
+      function logout() {
+        localStorage.clear();
+        window.location.href = "signin.html";
       }
     </script>
   </body>

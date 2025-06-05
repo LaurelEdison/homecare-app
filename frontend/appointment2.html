@@ -12,49 +12,74 @@
         <img src="logo.png" alt="Home Alone Logo" />
         <span>HOME ALONE</span>
       </div>
-      <div class="profile-icon">👤</div>
+      <div style="display: flex; align-items: center; gap: 1rem">
+        <div class="profile-icon">👤</div>
+        <button
+          onclick="logout()"
+          style="
+            padding: 0.5rem 1rem;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+          "
+        >
+          Logout
+        </button>
+      </div>
     </header>
 
     <main>
       <button class="back-button" onclick="goBack()">←</button>
 
       <div class="doctor-profile">
+        <img src="doctor.jpg" alt="Doctor" class="profile-img" />
         <h2>Booking Details</h2>
         <div id="booking-details">Loading booking...</div>
 
-        <div class="reviews">
+        <section class="reviews">
           <h3>Reviews</h3>
           <div id="review-list">Loading reviews...</div>
-        </div>
+        </section>
 
-        <div
+        <section
           class="comment-section"
           id="client-review-form"
           style="display: none"
         >
-          <h3>Add Comment</h3>
+          <h3>Add Review</h3>
+          <label for="rating">Rating (1–5):</label>
+          <select id="rating" required>
+            <option value="">Select rating</option>
+            <option value="1">⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+          </select>
           <textarea
             id="review-text"
-            placeholder="Write your comment here..."
+            placeholder="Write your comment here... (optional)"
           ></textarea>
           <button onclick="submitReview()">Submit Review</button>
-        </div>
+        </section>
 
-        <div id="status-buttons" style="display: none; margin-top: 1rem">
+        <section id="status-buttons" style="display: none; margin-top: 1rem">
           <h3>Update Booking Status</h3>
           <button
             onclick="updateStatus('Completed')"
             style="background: #28a745"
           >
-            ✅ Mark as Completed
+            Complete
           </button>
           <button
             onclick="updateStatus('Rejected')"
             style="background: #dc3545"
           >
-            ❌ Reject Booking
+            Reject
           </button>
-        </div>
+        </section>
       </div>
     </main>
 
@@ -89,29 +114,33 @@
               return;
             }
 
-            const booking = data[0]; // just show the first booking
+            const booking = data[0];
             currentBookingId = booking.id;
 
             document.getElementById("booking-details").innerHTML = `
-              <p><strong>Status:</strong> ${booking.status}</p>
-              <p><strong>Provider ID:</strong> ${booking.providerId}</p>
-              <p><strong>Requested Date:</strong> ${new Date(
-                booking.requestedDate
-              ).toLocaleDateString()}</p>
-            `;
+            <p><strong>Status:</strong> ${booking.status}</p>
+            <p><strong>Provider ID:</strong> ${booking.providerId}</p>
+            <p><strong>Requested Date:</strong> ${new Date(
+              booking.requestedDate
+            ).toLocaleDateString()}</p>
+          `;
 
             if (role === 1) {
               document.getElementById("client-review-form").style.display =
                 "block";
               document.getElementById("status-buttons").style.display = "block";
             }
+
+            loadReviews();
           });
       }
 
       function submitReview() {
-        const text = document.getElementById("review-text").value.trim();
-        if (!text) {
-          alert("Please enter a review.");
+        const rating = parseInt(document.getElementById("rating").value);
+        const content = document.getElementById("review-text").value.trim();
+
+        if (!rating || rating < 1 || rating > 5) {
+          alert("Please select a valid rating between 1 and 5.");
           return;
         }
 
@@ -120,36 +149,48 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             bookingId: currentBookingId,
-            clientEmail: email,
-            content: text,
+            comments: content,
+            rating: rating,
           }),
         })
           .then((res) => res.text())
           .then((msg) => {
             alert(msg);
-            loadReviews(); // refresh list
+            loadReviews();
             document.getElementById("review-text").value = "";
+            document.getElementById("rating").value = "";
           });
       }
 
       function loadReviews() {
-        fetch("http://localhost:8080/api/reviews/all")
+        if (!currentBookingId) return;
+
+        fetch(`http://localhost:8080/api/reviews/booking/${currentBookingId}`)
           .then((res) => res.json())
           .then((reviews) => {
             const container = document.getElementById("review-list");
             container.innerHTML = "";
 
-            reviews
-              .filter((r) => r.bookingId === currentBookingId)
-              .forEach((r) => {
-                const box = document.createElement("div");
-                box.className = "review-box";
-                box.innerHTML = `
-                <strong>🗣️ ${r.clientEmail}</strong>
-                <p>${r.content}</p>
-              `;
-                container.appendChild(box);
-              });
+            if (!Array.isArray(reviews) || reviews.length === 0) {
+              container.innerHTML = "<p>No reviews yet.</p>";
+              return;
+            }
+
+            reviews.forEach((r) => {
+              const box = document.createElement("div");
+              box.className = "review-box";
+              box.innerHTML = `
+              <strong>🗣️ ${r.clientEmail || "Unknown"}</strong>
+              <p>Rating: ${"⭐".repeat(r.rating)}</p>
+              <p>${r.comments || ""}</p>
+            `;
+              container.appendChild(box);
+            });
+          })
+          .catch((err) => {
+            console.error("Review fetch error:", err);
+            document.getElementById("review-list").innerHTML =
+              "<p>Failed to load reviews.</p>";
           });
       }
 
@@ -159,14 +200,26 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status }),
         })
-          .then((res) => res.text())
-          .then((msg) => {
-            alert(msg);
-            loadBooking(); // refresh
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Failed to update status");
+            }
+            return res.text();
+          })
+          .then(() => {
+            alert("Updated status successfully");
+            loadBooking();
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Something went wrong while updating the status.");
           });
       }
+      function logout() {
+        localStorage.clear();
+        window.location.href = "signin.html";
+      }
 
-      // Initial load
       loadBooking();
       loadReviews();
     </script>

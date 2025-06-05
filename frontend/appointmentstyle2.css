@@ -130,3 +130,46 @@ textarea {
   padding: 0.5rem;
   resize: vertical;
 }
+
+/* Dropdown Styling */
+select#rating {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: white;
+  appearance: none;
+}
+
+/* Button Styling */
+button {
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button[onclick*="updateStatus"][onclick*="'Completed'"] {
+  background: #28a745;
+  color: white;
+  margin-right: 0.5rem;
+}
+
+button[onclick*="updateStatus"][onclick*="'Rejected'"] {
+  background: #dc3545;
+  color: white;
+}
+
+button[onclick="submitReview()"] {
+  background-color: #3b26d4;
+  color: white;
+  margin-top: 1rem;
+}

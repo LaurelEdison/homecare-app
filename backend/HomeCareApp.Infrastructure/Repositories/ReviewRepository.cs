@@ -49,4 +49,11 @@ public class ReviewRepository : IReviewRepository
 
         return "Could not find review";
     }
+
+    public string ClientNameFromId(Guid id)
+    {
+        var user = _context.Reviews.Find(id).Booking.MCareRequest.Client.FullName;
+        return user;
+    }
+    
 }
