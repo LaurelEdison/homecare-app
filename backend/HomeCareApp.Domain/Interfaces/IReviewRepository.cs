@@ -9,4 +9,5 @@ public interface IReviewRepository
     string Add(Review review);
     string Update(Review review);
     string Delete(Guid id);
+    string ClientNameFromId(Guid id);
 }
