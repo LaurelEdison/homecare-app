@@ -1,27 +1,60 @@
-var builder = WebApplication.CreateBuilder(args);
+using HomeCareApp.Application;
+using HomeCareApp.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using HomeCareApp.Infrastructure.Data;
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// CORS: Define it BEFORE builder.Build()
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://127.0.0.1:5500")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
+// Add services
 builder.Services.AddOpenApi();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddServices();
+
+Console.WriteLine("Loaded connection string: " + builder.Configuration.GetConnectionString("DefaultConnection"));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure pipeline
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins); // IMPORTANT: Add before UseAuthorization if used
 
+app.MapControllers();
+
+// Optional: Apply pending migrations
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
+
+// Dummy endpoint
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
-
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
+    var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

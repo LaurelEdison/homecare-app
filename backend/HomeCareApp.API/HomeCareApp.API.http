@@ -1,4 +1,4 @@
-@HomeCareApp.API_HostAddress = http://localhost:5128
+@HomeCareApp.API_HostAddress = http://localhost:8080 
 
 GET {{HomeCareApp.API_HostAddress}}/weatherforecast/
 Accept: application/json
